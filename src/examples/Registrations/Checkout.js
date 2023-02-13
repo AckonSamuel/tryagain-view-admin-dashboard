@@ -26,7 +26,7 @@ function Copyright() {
   );
 }
 
-const steps = ["CLUB EXECUTIVES", "APPLICATION REQUIREMENTS", "TERMS AND CONDITIONS"];
+const steps = ["", "APPLICATION REQUIREMENTS", "TERMS AND CONDITIONS"];
 
 function getStepContent(step) {
   switch (step) {

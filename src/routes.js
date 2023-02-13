@@ -21,100 +21,102 @@
 */
 
 // Material Dashboard 2 React layouts
-// import Dashboard from "layouts/dashboard";
-import Profile from "layouts/profile";
-import UpdateClubForm from "layouts/updates";
-import Logout from "layouts/authentication/sign-out";
-import SignIn from "layouts//authentication/sign-in";
-import SignUp from "layouts/authentication/sign-up";
+import Dashboard from "layouts/dashboard";
+import Applications from "layouts/applications";
+import Settings from "layouts/settings";
+// import Profile from "layouts/profile";
+// import UpdateClubForm from "layouts/updates";
+// import Logout from "layouts/authentication/sign-out";
+// import SignIn from "layouts//authentication/sign-in";
+// import SignUp from "layouts/authentication/sign-up";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
-import Tables from "layouts/tables";
-import Witness from "examples/Registrations/Witness";
-import RequiredDocuments from "examples/Registrations/RequiredDocuments";
+// import Tables from "layouts/tables";
+// import Witness from "examples/Registrations/Witness";
+// import RequiredDocuments from "examples/Registrations/RequiredDocuments";
 
 const routes = [
+  {
+    type: "collapse",
+    name: "Dashboard",
+    key: "dashboard",
+    icon: <Icon fontSize="small">dashboard</Icon>,
+    route: "/dashboard",
+    component: <Dashboard />,
+  },
+  {
+    type: "collapse",
+    name: "Applications",
+    key: "application",
+    icon: <Icon fontSize="small">note</Icon>,
+    route: "/application",
+    component: <Applications />,
+  },
+  {
+    type: "collapse",
+    name: "Settings",
+    key: "settings",
+    icon: <Icon fontSize="small">settings</Icon>,
+    route: "/settings",
+    component: <Settings />,
+  },
+  // {
+  //   // type: "collapse",
+  //   name: "Sign Up",
+  //   key: "sign-up",
+  //   icon: <Icon fontSize="small">assignment</Icon>,
+  //   route: "/authentication/sign-up",
+  //   component: <SignUp />,
+  // },
   // {
   //   type: "collapse",
-  //   name: "Dashboard",
-  //   key: "dashboard",
-  //   icon: <Icon fontSize="small">dashboard</Icon>,
-  //   route: "/dashboard",
-  //   component: <Dashboard />,
+  //   name: "Club Update",
+  //   key: "update",
+  //   icon: <Icon fontSize="small">edit</Icon>,
+  //   route: "/profile/edit",
+  //   component: <UpdateClubForm />,
   // },
-  {
-    type: "collapse",
-    name: "Profile",
-    key: "profile",
-    icon: <Icon fontSize="small">person</Icon>,
-    route: "/profile",
-    component: <Profile />,
-  },
-  {
-    // type: "collapse",
-    name: "Sign In",
-    key: "sign-in",
-    icon: <Icon fontSize="small">login</Icon>,
-    route: "/",
-    component: <SignIn />,
-  },
-  {
-    // type: "collapse",
-    name: "Sign Up",
-    key: "sign-up",
-    icon: <Icon fontSize="small">assignment</Icon>,
-    route: "/authentication/sign-up",
-    component: <SignUp />,
-  },
-  {
-    type: "collapse",
-    name: "Club Update",
-    key: "update",
-    icon: <Icon fontSize="small">edit</Icon>,
-    route: "/profile/edit",
-    component: <UpdateClubForm />,
-  },
-  {
-    // type: "collapse",
-    name: "Signout",
-    key: "logout",
-    icon: <Icon fontSize="small">logout</Icon>,
-    route: "/club/logout",
-    component: <Logout />,
-  },
-  {
-    type: "collapse",
-    name: "Executives",
-    key: "executives",
-    icon: <Icon fontSize="small">person</Icon>,
-    route: "/executive",
-    component: <Tables />,
-  },
-  {
-    type: "collapse",
-    name: "Witness 1",
-    key: "witness_one",
-    icon: <Icon fontSize="small">person</Icon>,
-    route: "/first_witness",
-    component: <Witness />,
-  },
-  {
-    type: "collapse",
-    name: "Witness 2",
-    key: "witness_two",
-    icon: <Icon fontSize="small">person</Icon>,
-    route: "/second_witness",
-    component: <Witness />,
-  },
-  {
-    type: "collapse",
-    name: "Required Document",
-    key: "req_docs",
-    icon: <Icon fontSize="small">notes</Icon>,
-    route: "/required-documents",
-    component: <RequiredDocuments />,
-  },
+  // {
+  //   // type: "collapse",
+  //   name: "Signout",
+  //   key: "logout",
+  //   icon: <Icon fontSize="small">logout</Icon>,
+  //   route: "/club/logout",
+  //   component: <Logout />,
+  // },
+  // {
+  //   type: "collapse",
+  //   name: "Executives",
+  //   key: "executives",
+  //   icon: <Icon fontSize="small">person</Icon>,
+  //   route: "/executive",
+  //   component: <Tables />,
+  // },
+  // {
+  //   type: "collapse",
+  //   name: "Witness 1",
+  //   key: "witness_one",
+  //   icon: <Icon fontSize="small">person</Icon>,
+  //   route: "/first_witness",
+  //   component: <Witness />,
+  // },
+  // {
+  //   type: "collapse",
+  //   name: "Witness 2",
+  //   key: "witness_two",
+  //   icon: <Icon fontSize="small">person</Icon>,
+  //   route: "/second_witness",
+  //   component: <Witness />,
+  // },
+  // {
+  //   type: "collapse",
+  //   name: "Required Document",
+  //   key: "req_docs",
+  //   icon: <Icon fontSize="small">notes</Icon>,
+  //   route: "/required-documents",
+  //   component: <RequiredDocuments />,
+  // },
 ];
 
 export default routes;
