@@ -15,6 +15,7 @@ import DataTable from "examples/Tables/DataTable";
 
 // Data
 import data from "layouts/dashboard/components/Projects/data";
+import AddEquipment from "layouts/applications/new-instruments";
 
 function Projects() {
   const { columns, rows } = data();
@@ -38,7 +39,7 @@ function Projects() {
       open={Boolean(menu)}
       onClose={closeMenu}
     >
-      <MenuItem onClick={closeMenu}>Action</MenuItem>
+      <MenuItem value="Add Equipment"><AddEquipment /></MenuItem>
       <MenuItem onClick={closeMenu}>Another action</MenuItem>
       <MenuItem onClick={closeMenu}>Something else</MenuItem>
     </Menu>
@@ -66,7 +67,11 @@ function Projects() {
             </MDTypography>
           </MDBox>
         </MDBox>
-        <MDBox color="text" px={2}>
+        <MDBox sx={{
+          display: 'flex',
+          gap: 3,
+        }} color="text" px={2}>
+        <AddEquipment />
           <Icon sx={{ cursor: "pointer", fontWeight: "bold" }} fontSize="small" onClick={openMenu}>
             more_vert
           </Icon>
