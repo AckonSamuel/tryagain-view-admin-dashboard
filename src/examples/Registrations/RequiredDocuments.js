@@ -21,8 +21,8 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 
 // Data
-import { postUpload } from "redux/slices/posts/postUpload";
-import { myClubFetch } from "redux/slices/clubs/getMyClub";
+// import { postUpload } from "redux/slices/posts/postUpload";
+// import { myClubFetch } from "redux/slices/clubs/getMyClub";
 import MDButton from "components/MDButton";
 // import PDFPreview from "components/MDThumbnail.js";
 
@@ -37,7 +37,7 @@ function RequiredDocuments() {
   const club = useSelector((state) => state.myClubFetch.club);
 
   useEffect(() => {
-    dispatch(myClubFetch());
+    // dispatch(myClubFetch());
   }, [dispatch, submitted]);
 
   // const myClub = useSelector((state) => state.myClubFetch, shallowEqual);
@@ -78,19 +78,19 @@ function RequiredDocuments() {
         }
       });
       console.log(data);
-      dispatch(postUpload(data)).then((res) => {
-        if (res.type === "post/postUpload/fulfilled") {
-          console.log(club);
-          // window.location.reload();
-          setSuccess(true);
-          setFailure(false);
-          console.log(club);
-        }
-        if (res.type === "post/postUpload/rejected") {
-          setFailure(true);
-          setSuccess(false);
-        }
-      });
+      // dispatch(postUpload(data)).then((res) => {
+      //   if (res.type === "post/postUpload/fulfilled") {
+      //     console.log(club);
+      //     // window.location.reload();
+      //     setSuccess(true);
+      //     setFailure(false);
+      //     console.log(club);
+      //   }
+      //   if (res.type === "post/postUpload/rejected") {
+      //     setFailure(true);
+      //     setSuccess(false);
+      //   }
+      // });
     }
   }, [submitted]);
 
