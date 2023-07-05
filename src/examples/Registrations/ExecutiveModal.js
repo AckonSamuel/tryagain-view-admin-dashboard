@@ -6,8 +6,6 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { executiveCreate } from "redux/slices/clubs/executiveCreate";
-import { executiveFetch } from "redux/slices/clubs/executivesFetch";
 import MDBox from "components/MDBox";
 import MDInput from "components/MDInput";
 import MDTypography from "components/MDTypography";
@@ -48,19 +46,19 @@ export default function AddExecutive() {
     }
   }, [open]);
 
-  useEffect(() => {
-    if (submitted) {
-      setSubmitted(false);
-      const data = getValues();
-      dispatch(executiveCreate(data)).then((res) => {
-        if (res.type === "executive/executiveCreate/fulfilled") {
-          setOpen(false);
-          setSuccess(true);
-          dispatch(executiveFetch());
-        }
-      });
-    }
-  }, [submitted]);
+  // useEffect(() => {
+  //   if (submitted) {
+  //     setSubmitted(false);
+  //     const data = getValues();
+  //     dispatch(executiveCreate(data)).then((res) => {
+  //       if (res.type === "executive/executiveCreate/fulfilled") {
+  //         setOpen(false);
+  //         setSuccess(true);
+  //         dispatch(executiveFetch());
+  //       }
+  //     });
+  //   }
+  // }, [submitted]);
 
   return (
     <div>
