@@ -9,8 +9,6 @@ import Icon from "@mui/material/Icon";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { executiveEdit } from "redux/slices/clubs/executiveUpdate";
-import { executiveFetch } from "redux/slices/clubs/executivesFetch";
 import MDBox from "components/MDBox";
 import MDInput from "components/MDInput";
 import MDTypography from "components/MDTypography";
@@ -55,20 +53,20 @@ export default function ExecutiveUpdate({ executive }) {
     }
   }, [open]);
 
-  useEffect(() => {
-    if (submitted) {
-      setSubmitted(false);
-      const data = getValues();
-      localStorage.setItem("executiveId", JSON.stringify(executive.id));
-      dispatch(executiveEdit(data)).then((res) => {
-        if (res.type === "executive/executiveEdit/fulfilled") {
-          setOpen(false);
-          setSuccess(true);
-          dispatch(executiveFetch());
-        }
-      });
-    }
-  }, [submitted]);
+  // useEffect(() => {
+  //   if (submitted) {
+  //     setSubmitted(false);
+  //     const data = getValues();
+  //     localStorage.setItem("executiveId", JSON.stringify(executive.id));
+  //     dispatch(executiveEdit(data)).then((res) => {
+  //       if (res.type === "executive/executiveEdit/fulfilled") {
+  //         setOpen(false);
+  //         setSuccess(true);
+  //         dispatch(executiveFetch());
+  //       }
+  //     });
+  //   }
+  // }, [submitted]);
 
   return (
     <div>
