@@ -8,7 +8,7 @@ import Paper from "@mui/material/Paper";
 import CircularProgress from "@mui/material/CircularProgress";
 import MDBox from "components/MDBox";
 import { useForm } from "react-hook-form";
-import { clubUpdate } from "redux/slices/clubs/updateSlice";
+// import { clubUpdate } from "redux/slices/clubs/updateSlice";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import MDButton from "components/MDButton";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
@@ -37,11 +37,11 @@ export default function UpdateClubForm() {
       const getClub = JSON.parse(localStorage.getItem("club"));
 
       if (getClub && getClub.data.id) {
-        dispatch(clubUpdate(data)).then((res) => {
-          if (res.type === "club/clubUpdate/fulfilled") {
-            navigate("/profile");
-          }
-        });
+        // dispatch(clubUpdate(data)).then((res) => {
+        //   if (res.type === "club/clubUpdate/fulfilled") {
+        //     navigate("/profile");
+        //   }
+        // });
       }
     }
   }, [submitted]);
