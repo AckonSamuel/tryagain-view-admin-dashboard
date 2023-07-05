@@ -32,6 +32,7 @@ import Settings from "layouts/settings";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
+import AddCategory from "./layouts/applications/add-new-category";
 // import Tables from "layouts/tables";
 // import Witness from "examples/Registrations/Witness";
 // import RequiredDocuments from "examples/Registrations/RequiredDocuments";
@@ -61,14 +62,14 @@ const routes = [
     route: "/settings",
     component: <Settings />,
   },
-  // {
-  //   // type: "collapse",
-  //   name: "Sign Up",
-  //   key: "sign-up",
-  //   icon: <Icon fontSize="small">assignment</Icon>,
-  //   route: "/authentication/sign-up",
-  //   component: <SignUp />,
-  // },
+  {
+    type: "collapse",
+    name: "add-category",
+    key: "sign-up",
+    icon: <Icon fontSize="small">Add Category</Icon>,
+    route: "/add-category",
+    component: <AddCategory />,
+  },
   // {
   //   type: "collapse",
   //   name: "Club Update",
