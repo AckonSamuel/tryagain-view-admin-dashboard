@@ -6,18 +6,19 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { executiveCreate } from "redux/slices/clubs/executiveCreate";
-import { executiveFetch } from "redux/slices/clubs/executivesFetch";
 import MDBox from "components/MDBox";
 import MDInput from "components/MDInput";
 import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import Chip from '@mui/material/Chip';
+import OutlinedInput from "@mui/material/OutlinedInput";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import Chip from "@mui/material/Chip";
+import { labFetch } from "redux/slices/labs/fetchLabSlice";
+import { instrumentCreate } from "redux/slices/instruments/instrumentCreate";
+import { categoryFetch } from "redux/slices/categories/fetchCategorySlice";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -30,9 +31,10 @@ const MenuProps = {
   },
 };
 
-export default function AddExecutive() {
+export default function AddCategory() {
   const dispatch = useDispatch();
-  const [itemName, setitemName] = useState([]);
+  const [itemCategory, setItemCategory] = useState([]);
+  const [itemLab, setItemLab] = useState([]);
   const [open, setOpen] = useState(false);
   const [scroll, setScroll] = useState("paper");
   const [submitted, setSubmitted] = useState(false);
@@ -40,11 +42,11 @@ export default function AddExecutive() {
 
   const { register, getValues, handleSubmit } = useForm();
 
-  const sampleCategory = ['power', 'measurement', 'protection', 'soldering'];
-  const sampleLabs = ['mechanical', 'electrical', 'computer', 'electronics'];
+  const sampleCategory = useSelector((state) => state.categoryFetch.category);
+  const sampleLabs = useSelector((state) => state.labFetch.lab);
 
-  const loading = useSelector((state) => state.executiveCreate.loading);
-  const error = useSelector((state) => state.executiveCreate.error);
+  const loading = useSelector((state) => state.categoryCreate.loading);
+  const error = useSelector((state) => state.categoryCreate.error);
 
   const handleClickOpen = (scrollType) => () => {
     setOpen(true);
@@ -70,36 +72,43 @@ export default function AddExecutive() {
   }, [open]);
 
   useEffect(() => {
+    if (sampleLabs.length === 0) {
+      dispatch(labFetch());
+    }
+    if (sampleCategory.length === 0) {
+      dispatch(categoryFetch());
+    }
     if (submitted) {
       setSubmitted(false);
       const data = getValues();
-      dispatch(executiveCreate(data)).then((res) => {
-        if (res.type === "executive/executiveCreate/fulfilled") {
+      console.log(data);
+      dispatch(instrumentCreate(data)).then((res) => {
+        if (res.type === "instrument/instrumentCreate/fulfilled") {
           setOpen(false);
           setSuccess(true);
-          dispatch(executiveFetch());
+          // dispatch(instrumentFetch());
         }
       });
     }
-  }, [submitted]);
+  }, [dispatch, getValues, sampleCategory.length, sampleLabs.length, submitted]);
 
-  const handleChange = (event) => {
+  const handleCategoryChange = (event) => {
     const {
       target: { value },
     } = event;
-    setitemName(
-      // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value,
-    );
+    setItemCategory(Array.isArray(value) ? value : [value]);
+  };
+
+  const handleLabChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setItemLab(Array.isArray(value) ? value : [value]);
   };
 
   return (
     <div>
-      <MDBox
-        sx={{
-          marginLeft: 5,
-        }}
-      >
+      <MDBox sx={{ marginLeft: 5 }}>
         <MDButton color="success" onClick={handleClickOpen("paper")}>
           Add equipment
         </MDButton>
@@ -113,22 +122,22 @@ export default function AddExecutive() {
         fullWidth
       >
         <MDBox component="form" onSubmit={handleSubmit(onSubmit)} fullWidth>
-          <DialogTitle id="scroll-dialog-title">Add Executive</DialogTitle>
+          <DialogTitle id="scroll-dialog-title">Add Category</DialogTitle>
           <DialogContent dividers={scroll === "paper"} ref={descriptionElementRef}>
             <MDBox mb={2}>
               <MDInput
                 type="text"
-                label="Name of Equipment"
+                label="Name of Instrument"
                 variant="standard"
                 disabled={loading}
                 fullWidth
-                {...register("equipment_name", { required: true })}
+                {...register("instrument_name", { required: true })}
               />
             </MDBox>
             <MDBox mb={2}>
               <MDInput
-                type="email"
-                label="E-mail"
+                type="number"
+                label="Manufacturing Year"
                 variant="standard"
                 disabled={loading}
                 fullWidth
@@ -138,17 +147,17 @@ export default function AddExecutive() {
             <MDBox mb={2}>
               <MDInput
                 type="text"
-                label="Portfolio"
+                label="Model"
                 variant="standard"
                 disabled={loading}
                 fullWidth
-                {...register("equipment_model", { required: true })}
+                {...register("model", { required: true })}
               />
             </MDBox>
             <MDBox mb={2}>
               <MDInput
-                type="text"
-                label="Programme of Study"
+                type="number"
+                label="Price"
                 variant="standard"
                 disabled={loading}
                 fullWidth
@@ -158,17 +167,18 @@ export default function AddExecutive() {
             <MDBox mb={2}>
               <MDInput
                 type="text"
-                label="Contact"
+                label="Description"
                 variant="standard"
                 disabled={loading}
                 fullWidth
+                multiline
                 {...register("description", { required: true })}
               />
             </MDBox>
             <MDBox mb={2}>
               <MDInput
                 type="text"
-                label="Contact"
+                label="Resolution"
                 variant="standard"
                 disabled={loading}
                 fullWidth
@@ -178,7 +188,7 @@ export default function AddExecutive() {
             <MDBox mb={2}>
               <MDInput
                 type="text"
-                label="Contact"
+                label="Range"
                 variant="standard"
                 disabled={loading}
                 fullWidth
@@ -187,8 +197,8 @@ export default function AddExecutive() {
             </MDBox>
             <MDBox mb={2}>
               <MDInput
-                type="text"
-                label="Contact"
+                type="number"
+                label="Accuracy"
                 variant="standard"
                 disabled={loading}
                 fullWidth
@@ -196,34 +206,76 @@ export default function AddExecutive() {
               />
             </MDBox>
             <MDBox mb={2}>
-            <FormControl sx={{ m: 1, width: 300 }}>
-        <InputLabel id="demo-multiple-chip-label">Categories</InputLabel>
-        <Select
-          labelId="demo-multiple-chip-label"
-          id="demo-multiple-chip"
-          multiple
-          value={itemName}
-          onChange={handleChange}
-          input={<OutlinedInput id="select-multiple-chip" label="categories" />}
-          renderValue={(selected) => (
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-              {selected.map((value) => (
-                <Chip key={value} label={value} />
-              ))}
-            </Box>
-          )}
-          MenuProps={MenuProps}
-        >
-          {sampleCategory.map((name) => (
-            <MenuItem
-              key={name}
-              value={name}
-            >
-              {name}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+              <FormControl sx={{ width: "100%" }}>
+                <InputLabel id="demo-multiple-chip-label">Category</InputLabel>
+                <Select
+                  labelId="demo-multiple-chip-label"
+                  id="demo-multiple-chip"
+                  multiple
+                  sx={{ minHeight: 50 }}
+                  {...register("categories")}
+                  value={itemCategory}
+                  onChange={handleCategoryChange}
+                  input={<OutlinedInput id="select-multiple-chip" label="categories" />}
+                  renderValue={(selected) => (
+                    <MDBox sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                      {selected.map((value) => (
+                        <Chip
+                          key={value}
+                          label={
+                            selected.length > 0 &&
+                            sampleCategory.find((cat) => cat.id === value)?.attributes.category_name
+                          }
+                        />
+                      ))}
+                    </MDBox>
+                  )}
+                  MenuProps={MenuProps}
+                >
+                  {sampleCategory.length > 0 &&
+                    sampleCategory.map((item) => (
+                      <MenuItem key={item.id} value={item.id}>
+                        {item.attributes.category_name}
+                      </MenuItem>
+                    ))}
+                </Select>
+              </FormControl>
+            </MDBox>
+            <MDBox mb={2}>
+              <FormControl sx={{ width: "100%" }}>
+                <InputLabel id="demo-multiple-chip-label">Labs</InputLabel>
+                <Select
+                  labelId="demo-multiple-chip-label"
+                  id="demo-multiple-chip"
+                  multiple
+                  {...register("labs")}
+                  sx={{ minHeight: 50 }}
+                  value={itemLab}
+                  onChange={handleLabChange}
+                  input={<OutlinedInput id="select-multiple-chip" label="labs" />}
+                  renderValue={(selected) => (
+                    <MDBox sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                      {selected.map((value) => (
+                        <Chip
+                          key={value}
+                          label={
+                            selected.length > 0 &&
+                            sampleLabs.find((cat) => cat.id === value)?.attributes.lab_name
+                          }
+                        />
+                      ))}
+                    </MDBox>
+                  )}
+                  MenuProps={MenuProps}
+                >
+                  {sampleLabs.length > 0 &&
+                    sampleLabs.map((item) => (
+                      <MenuItem key={item.id} value={item.id}>
+                        {item.attributes.lab_name}
+                      </MenuItem>
+                    ))}
+                </Select>
+              </FormControl>
             </MDBox>
           </DialogContent>
           <DialogActions>
@@ -234,8 +286,8 @@ export default function AddExecutive() {
               Save
             </Button>
           </DialogActions>
-          {error && <MDTypography color="warning">Add executive unsuccessful</MDTypography>}
-          {success && <MDTypography color="warning">Add executive unsuccessful</MDTypography>}
+          {error && <MDTypography color="warning">Add category unsuccessful</MDTypography>}
+          {success && <MDTypography color="warning">Add category unsuccessful</MDTypography>}
         </MDBox>
       </Dialog>
     </div>

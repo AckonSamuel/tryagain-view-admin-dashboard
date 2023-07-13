@@ -5,43 +5,41 @@ import Tooltip from "@mui/material/Tooltip";
 import Icon from "@mui/material/Icon";
 import CircularProgress from "@mui/material/CircularProgress";
 import MDBox from "components/MDBox";
-import { executiveFetch } from "redux/slices/clubs/executivesFetch";
-import { executiveDelete } from "redux/slices/clubs/executiveDelete";
-import ExecutiveUpdate from "examples/Registrations/ExecutiveUpdate";
+import CategoryUpdate from "examples/Registrations/CategoryUpdate";
 
-function RowActions({ executiveId, executive }) {
+function RowActions({ categoryId, category }) {
   const [removeExe, setRemoveExe] = useState(false);
   const [soe, setSoe] = useState("");
   const dispatch = useDispatch();
 
-  const removeLoading = useSelector((state) => state.executiveDelete.loading);
+  const removeLoading = useSelector((state) => state.categoryDelete.loading);
 
-  const handleRemoveExecutive = () => {
+  const handleRemoveCategory = () => {
     setRemoveExe(true);
-    setSoe(executiveId);
+    setSoe(categoryId);
   };
 
   useEffect(() => {
     if (removeExe) {
       setRemoveExe(false);
-      dispatch(executiveDelete(executiveId)).then((res) => {
-        if (res.type === "executive/executiveDelete/fulfilled") {
-          dispatch(executiveFetch());
-          setSoe("");
-        }
-      });
+      // dispatch(categoryDelete(categoryId)).then((res) => {
+      //   if (res.type === "category/categoryDelete/fulfilled") {
+      //     dispatch(categoryFetch());
+      //     setSoe("");
+      //   }
+      // });
     }
   });
   return (
     <MDBox sx={{ display: "flex", justifyContent: "space-between" }}>
-      <ExecutiveUpdate executive={executive} />
-      {removeLoading && executiveId === soe ? (
+      <CategoryUpdate category={category} />
+      {removeLoading && categoryId === soe ? (
         <CircularProgress />
       ) : (
         <Tooltip title="delete" placement="bottom" sx={{ cursor: "pointer" }}>
           <Icon
             fontSize="medium"
-            onClick={handleRemoveExecutive}
+            onClick={handleRemoveCategory}
             sx={{ color: "red", marginLeft: 5, cursor: "pointer" }}
           >
             delete
@@ -54,11 +52,11 @@ function RowActions({ executiveId, executive }) {
 export default RowActions;
 
 RowActions.propTypes = {
-  executiveId: PropTypes.string.isRequired,
-  executive: PropTypes.shape({
+  categoryId: PropTypes.string.isRequired,
+  category: PropTypes.shape({
     id: PropTypes.string,
     attributes: PropTypes.shape({
-      executive_name: PropTypes.string,
+      category_name: PropTypes.string,
       email: PropTypes.string,
       portfolio: PropTypes.string,
       contact: PropTypes.number,

@@ -18,13 +18,13 @@ import ProfileInfoCard from "examples/Cards/InfoCards/ProfileInfoCard";
 import Header from "layouts/profile/components/Header";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 
-import { myClubFetch } from "redux/slices/clubs/getMyClub";
+// import { myClubFetch } from "redux/slices/clubs/getMyClub";
 
 function Overview() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(myClubFetch());
+    // dispatch(myClubFetch());
   }, [dispatch]);
 
   const myClub = useSelector((state) => state.myClubFetch, shallowEqual);

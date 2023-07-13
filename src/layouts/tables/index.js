@@ -12,21 +12,20 @@ import MDTypography from "components/MDTypography";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import DataTable from "examples/Tables/DataTable";
-import AddExecutive from "examples/Registrations/ExecutiveModal";
+import AddCategory from "examples/Registrations/CategoryModal";
 
 // Data
-import { executiveFetch } from "redux/slices/clubs/executivesFetch";
 import RowActions from "./data/RowActions";
 
 function Tables() {
   const dispatch = useDispatch();
-  const executives = useSelector((state) => state.executiveFetch.executive);
+  const categorys = useSelector((state) => state.categoryFetch.category);
 
   useEffect(() => {
-    dispatch(executiveFetch());
+    // dispatch(categoryFetch());
   }, [dispatch]);
 
-  console.log(executives);
+  console.log(categorys);
   const columns = [
     { Header: "Portfolio", accessor: "Portfolio", align: "left" },
     { Header: "Name", accessor: "Name", align: "left" },
@@ -38,15 +37,15 @@ function Tables() {
 
   const rows = [];
   const rowlet = [];
-  if (executives && executives.length > 0) {
-    executives.forEach((executive) => {
+  if (categorys && categorys.length > 0) {
+    categorys.forEach((category) => {
       rows.push({
-        Name: executive.attributes.executive_name,
-        Portfolio: executive.attributes.portfolio,
-        Contact: executive.attributes.contact,
-        Programme: executive.attributes.programme,
-        Email: executive.attributes.email,
-        Actions: <RowActions executiveId={executive.id} executive={executive} />,
+        Name: category.attributes.category_name,
+        Portfolio: category.attributes.portfolio,
+        Contact: category.attributes.contact,
+        Programme: category.attributes.programme,
+        Email: category.attributes.email,
+        Actions: <RowActions categoryId={category.id} category={category} />,
       });
     });
   }
@@ -69,11 +68,11 @@ function Tables() {
                 coloredShadow="success"
               >
                 <MDTypography variant="h6" color="white">
-                  Executives data table
+                  Categorys data table
                 </MDTypography>
               </MDBox>
               <MDBox pt={3}>
-                <AddExecutive />
+                <AddCategory />
               </MDBox>
               <MDBox pt={3}>
                 <DataTable

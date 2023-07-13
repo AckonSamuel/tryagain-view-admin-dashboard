@@ -9,14 +9,15 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import MDBox from "components/MDBox";
-import { adminLogout } from "redux/slices/admin/logoutSlice";
+import { instrumentDelete } from "redux/slices/instruments/instrumentDelete";
 import MDButton from "components/MDButton";
 import MDTypography from "components/MDTypography";
 import { CircularProgress } from "@mui/material";
+import { instrumentFetch } from "redux/slices/instruments/instrumentFetch";
 
 const Transition = forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
 
-export default function Logout() {
+export default function DeleteInstrument() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -30,29 +31,30 @@ export default function Logout() {
     setOpen(false);
   };
 
-  const loading = useSelector((state) => state.adminLogout.loading, shallowEqual);
-  const error = useSelector((state) => state.adminLogout.error, shallowEqual);
+  const { loading, error }= useSelector((state) => state.instrumentDelete, shallowEqual);
+  const { id } = useSelector((state) => state.instrumentFetch, shallowEqual);
 
   useEffect(() => {
     if (submitted) {
       setSubmitted(false);
-      dispatch(adminLogout()).then((res) => {
-        if (res.type === "admin/adminLogout/fulfilled") {
+      dispatch(instrumentDelete(id)).then((res) => {
+        if (res.type === "instrument/instrumentDelete/fulfilled") {
           setOpen(false);
-          navigate("/");
+          dispatch(instrumentFetch());
+          navigate("/instruments");
         }
       });
     }
   }, [submitted]);
 
-  const handleLogout = () => {
+  const handleDelete = () => {
     setSubmitted(true);
   };
 
   return (
     <>
       <MDButton bgcolor="warning" onClick={handleClickOpen}>
-        Logout
+        Delete
       </MDButton>
       <MDBox component="form" role="form">
         <Dialog
@@ -67,12 +69,12 @@ export default function Logout() {
             <MDBox p={7} display="flex" justifyItems="space-between" gap="1em">
               <CircularProgress color="success" />
               <MDTypography component="h6" color="success">
-                Signing out...
+                Deleting instrument...
               </MDTypography>
             </MDBox>
           ) : (
             <>
-              <DialogTitle>Are you sure you want to logout?</DialogTitle>
+              <DialogTitle>Are you sure you want to delete this instrument?</DialogTitle>
               <DialogActions>
                 <Button
                   onClick={handleClose}
@@ -91,7 +93,7 @@ export default function Logout() {
                     backgroundColor: "white",
                     fontWeight: "bold",
                   }}
-                  onClick={handleLogout}
+                  onClick={handleDelete}
                 >
                   Yes
                 </Button>

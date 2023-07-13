@@ -33,7 +33,7 @@ import InputLabel from "@mui/material/InputLabel";
 import BasicLayout from "layouts/authentication/components/BasicLayout";
 
 // Redux functions
-import { clubLogin } from "redux/slices/clubs/loginSlice";
+import { adminLogin } from "redux/slices/admin/loginSlice";
 
 // export let currentStudent = "";
 
@@ -43,8 +43,8 @@ function Basic() {
   const navigate = useNavigate();
   const [submitted, setSubmitted] = useState(false);
 
-  const loading = useSelector((state) => state.clubLogin.loading);
-  const error = useSelector((state) => state.clubLogin.error);
+  const loading = useSelector((state) => state.adminLogin.loading);
+  const error = useSelector((state) => state.adminLogin.error);
 
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -76,9 +76,9 @@ function Basic() {
       setSubmitted(false);
       const data = getValues();
 
-      dispatch(clubLogin(data)).then((res) => {
-        if (res.type === "club/clubLogin/fulfilled") {
-          navigate("/profile");
+      dispatch(adminLogin(data)).then((res) => {
+        if (res.type === "admin/adminLogin/fulfilled") {
+          navigate("/dashboard");
         }
       });
     }
@@ -164,7 +164,7 @@ function Basic() {
           </MDBox>
           <MDBox mt={4} mb={1}>
             <MDButton disabled={loading} variant="gradient" color="success" type="submit" fullWidth>
-              {loading ? "Authenticating club..." : "Sign in"}
+              {loading ? "Authenticating admin..." : "Sign in"}
             </MDButton>
           </MDBox>
           <MDBox mt={3} mb={1} textAlign="center">

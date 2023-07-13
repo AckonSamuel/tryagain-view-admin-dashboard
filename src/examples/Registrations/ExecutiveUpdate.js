@@ -13,22 +13,22 @@ import MDBox from "components/MDBox";
 import MDInput from "components/MDInput";
 import MDTypography from "components/MDTypography";
 
-export default function ExecutiveUpdate({ executive }) {
+export default function CategoryUpdate({ category }) {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [scroll, setScroll] = useState("paper");
   const [submitted, setSubmitted] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [programme, setProgramme] = useState(executive.attributes.programme);
-  const [executiveName, setExecutiveName] = useState(executive.attributes.executive_name);
-  const [contact, setContact] = useState(executive.attributes.contact);
-  const [portfolio, setPortfolio] = useState(executive.attributes.portfolio);
-  const [email, setEmail] = useState(executive.attributes.email);
+  const [programme, setProgramme] = useState(category.attributes.programme);
+  const [categoryName, setCategoryName] = useState(category.attributes.category_name);
+  const [contact, setContact] = useState(category.attributes.contact);
+  const [portfolio, setPortfolio] = useState(category.attributes.portfolio);
+  const [email, setEmail] = useState(category.attributes.email);
 
   const { register, getValues, handleSubmit } = useForm();
 
-  const loading = useSelector((state) => state.executiveEdit.loading);
-  const error = useSelector((state) => state.executiveEdit.error);
+  const loading = useSelector((state) => state.categoryEdit.loading);
+  const error = useSelector((state) => state.categoryEdit.error);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -57,12 +57,12 @@ export default function ExecutiveUpdate({ executive }) {
   //   if (submitted) {
   //     setSubmitted(false);
   //     const data = getValues();
-  //     localStorage.setItem("executiveId", JSON.stringify(executive.id));
-  //     dispatch(executiveEdit(data)).then((res) => {
-  //       if (res.type === "executive/executiveEdit/fulfilled") {
+  //     localStorage.setItem("categoryId", JSON.stringify(category.id));
+  //     dispatch(categoryEdit(data)).then((res) => {
+  //       if (res.type === "category/categoryEdit/fulfilled") {
   //         setOpen(false);
   //         setSuccess(true);
-  //         dispatch(executiveFetch());
+  //         dispatch(categoryFetch());
   //       }
   //     });
   //   }
@@ -72,7 +72,7 @@ export default function ExecutiveUpdate({ executive }) {
     <div>
       <Tooltip title="edit" placement="bottom" sx={{ cursor: "pointer" }}>
         <Icon
-          // onClick={handleEdit(executive.id)}
+          // onClick={handleEdit(category.id)}
           fontSize="medium"
           sx={{ cursor: "pointer" }}
           onClick={handleClickOpen}
@@ -89,18 +89,18 @@ export default function ExecutiveUpdate({ executive }) {
         fullWidth
       >
         <MDBox component="form" onSubmit={handleSubmit(onSubmit)} fullWidth>
-          <DialogTitle id="scroll-dialog-title">Edit Executive</DialogTitle>
+          <DialogTitle id="scroll-dialog-title">Edit Category</DialogTitle>
           <DialogContent dividers={scroll === "paper"} ref={descriptionElementRef}>
             <MDBox mb={2}>
               <MDInput
                 type="text"
                 label="Name"
-                value={executiveName}
+                value={categoryName}
                 variant="standard"
                 disabled={loading}
-                inputProps={{ onChange: (e) => setExecutiveName(e.target.value) }}
+                inputProps={{ onChange: (e) => setCategoryName(e.target.value) }}
                 fullWidth
-                {...register("executive_name", { required: true })}
+                {...register("category_name", { required: true })}
               />
             </MDBox>
             <MDBox mb={2}>
@@ -168,11 +168,11 @@ export default function ExecutiveUpdate({ executive }) {
   );
 }
 
-ExecutiveUpdate.defaultProps = {
-  executive: {
+CategoryUpdate.defaultProps = {
+  category: {
     id: "",
     attributes: {
-      executive_name: "",
+      category_name: "",
       email: "",
       portfolio: "",
       contact: "",
@@ -181,11 +181,11 @@ ExecutiveUpdate.defaultProps = {
   },
 };
 
-ExecutiveUpdate.propTypes = {
-  executive: PropTypes.shape({
+CategoryUpdate.propTypes = {
+  category: PropTypes.shape({
     id: PropTypes.string,
     attributes: PropTypes.shape({
-      executive_name: PropTypes.string,
+      category_name: PropTypes.string,
       email: PropTypes.string,
       portfolio: PropTypes.string,
       contact: PropTypes.number,

@@ -6,12 +6,25 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import { labCreate } from "redux/slices/labs/addLabSlice";
+import { labFetch } from "redux/slices/labs/fetchLabSlice";
 import MDBox from "components/MDBox";
 import MDInput from "components/MDInput";
 import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
 
-export default function AddCategory() {
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
+export default function AddLab() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [scroll, setScroll] = useState("paper");
@@ -20,8 +33,8 @@ export default function AddCategory() {
 
   const { register, getValues, handleSubmit } = useForm();
 
-  const loading = useSelector((state) => state.categoryCreate.loading);
-  const error = useSelector((state) => state.categoryCreate.error);
+  const loading = useSelector((state) => state.labCreate.loading);
+  const error = useSelector((state) => state.labCreate.error);
 
   const handleClickOpen = (scrollType) => () => {
     setOpen(true);
@@ -46,19 +59,19 @@ export default function AddCategory() {
     }
   }, [open]);
 
-  // useEffect(() => {
-  //   if (submitted) {
-  //     setSubmitted(false);
-  //     const data = getValues();
-  //     dispatch(categoryCreate(data)).then((res) => {
-  //       if (res.type === "category/categoryCreate/fulfilled") {
-  //         setOpen(false);
-  //         setSuccess(true);
-  //         dispatch(categoryFetch());
-  //       }
-  //     });
-  //   }
-  // }, [submitted]);
+  useEffect(() => {
+    if (submitted) {
+      setSubmitted(false);
+      const data = getValues();
+      dispatch(labCreate(data)).then((res) => {
+        if (res.type === "category/categoryCreate/fulfilled") {
+          setOpen(false);
+          setSuccess(true);
+          dispatch(labFetch());
+        }
+      });
+    }
+  }, [submitted]);
 
   return (
     <div>
@@ -68,7 +81,7 @@ export default function AddCategory() {
         }}
       >
         <MDButton color="success" onClick={handleClickOpen("paper")}>
-          Add category
+          Add new lab
         </MDButton>
       </MDBox>
       <Dialog
@@ -80,7 +93,7 @@ export default function AddCategory() {
         fullWidth
       >
         <MDBox component="form" onSubmit={handleSubmit(onSubmit)} fullWidth>
-          <DialogTitle id="scroll-dialog-title">Add Category</DialogTitle>
+          <DialogTitle id="scroll-dialog-title">Add lab</DialogTitle>
           <DialogContent dividers={scroll === "paper"} ref={descriptionElementRef}>
             <MDBox mb={2}>
               <MDInput
@@ -89,47 +102,17 @@ export default function AddCategory() {
                 variant="standard"
                 disabled={loading}
                 fullWidth
-                {...register("category_name", { required: true })}
-              />
-            </MDBox>
-            <MDBox mb={2}>
-              <MDInput
-                type="email"
-                label="E-mail"
-                variant="standard"
-                disabled={loading}
-                fullWidth
-                {...register("email", { required: true })}
+                {...register("lab_name", { required: true })}
               />
             </MDBox>
             <MDBox mb={2}>
               <MDInput
                 type="text"
-                label="Portfolio"
+                label="Location"
                 variant="standard"
                 disabled={loading}
                 fullWidth
-                {...register("portfolio", { required: true })}
-              />
-            </MDBox>
-            <MDBox mb={2}>
-              <MDInput
-                type="text"
-                label="Programme of Study"
-                variant="standard"
-                disabled={loading}
-                fullWidth
-                {...register("programme", { required: true })}
-              />
-            </MDBox>
-            <MDBox mb={2}>
-              <MDInput
-                type="text"
-                label="Contact"
-                variant="standard"
-                disabled={loading}
-                fullWidth
-                {...register("contact", { required: true })}
+                {...register("lab_location", { required: true })}
               />
             </MDBox>
           </DialogContent>

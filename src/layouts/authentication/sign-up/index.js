@@ -32,7 +32,7 @@ import CoverLayout from "layouts/authentication/components/CoverLayout";
 // Images
 import bgImage from "assets/images/bg-sign-up-cover.jpeg";
 
-import { clubSignUp } from "redux/slices/clubs/registerSlice";
+import { adminSignUp } from "redux/slices/admin/registerSlice";
 
 const formSchema = Yup.object({
   email: Yup.string().email(),
@@ -45,8 +45,8 @@ function Cover() {
   const dispatch = useDispatch();
   const [submitted, setSubmitted] = useState(false);
 
-  const loading = useSelector((state) => state.clubRegister.loading);
-  const error = useSelector((state) => state.clubRegister.error);
+  const loading = useSelector((state) => state.adminRegister.loading);
+  const error = useSelector((state) => state.adminRegister.error);
 
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -77,8 +77,8 @@ function Cover() {
       setSubmitted(false);
       const data = getValues();
 
-      dispatch(clubSignUp(data)).then((res) => {
-        if (res.type === "club/clubSignUP/fulfilled") {
+      dispatch(adminSignUp(data)).then((res) => {
+        if (res.type === "admin/adminSignUP/fulfilled") {
           navigate("/");
         }
       });
@@ -111,11 +111,21 @@ function Cover() {
             <MDBox mb={2}>
               <MDInput
                 type="text"
-                label="Name"
+                label="First Name"
                 variant="standard"
                 disabled={loading}
                 fullWidth
-                {...register("club_name", { required: true })}
+                {...register("first_name", { required: true })}
+              />
+            </MDBox>
+            <MDBox mb={2}>
+              <MDInput
+                type="text"
+                label="Last Name"
+                variant="standard"
+                disabled={loading}
+                fullWidth
+                {...register("last_name", { required: true })}
               />
             </MDBox>
             <MDBox mb={2}>
@@ -181,41 +191,6 @@ function Cover() {
                 <p sx={{ color: "red", fontSize: "0.5em" }}>
                   {errors.password_confirmation ? errors.password_confirmation.message : ""}
                 </p>
-              </FormControl>
-            </MDBox>
-            <MDBox mb={2}>
-              <MDInput
-                type="integer"
-                label="Telephone number"
-                variant="standard"
-                disabled={loading}
-                fullWidth
-                {...register("telephone_number", { required: true })}
-              />
-              <p>{errors.phone_number ? errors.phone_number.message : ""}</p>
-            </MDBox>
-            <MDBox mb={2}>
-              <FormControl fullWidth variant="standard">
-                <InputLabel htmlFor="group">Group</InputLabel>
-                <Select
-                  disabled={loading}
-                  {...register("group")}
-                  required
-                  id="group"
-                  label="group"
-                  variant="standard"
-                >
-                  <MenuItem value="Religious">Religious</MenuItem>
-                  <MenuItem value="Alumni">Alumni</MenuItem>
-                  <MenuItem value="Ethnic">Ethnic</MenuItem>
-                  <MenuItem value="Professional">Professional</MenuItem>
-                  <MenuItem value="College">College</MenuItem>
-                  <MenuItem value="Faculty">Faculty</MenuItem>
-                  <MenuItem value="Department">Department</MenuItem>
-                  <MenuItem value="Entertainment">Entertainment</MenuItem>
-                  <MenuItem value="Sports">Sports</MenuItem>
-                  <MenuItem value="Other">Other</MenuItem>
-                </Select>
               </FormControl>
             </MDBox>
             <MDBox display="flex" alignItems="center" ml={-1}>

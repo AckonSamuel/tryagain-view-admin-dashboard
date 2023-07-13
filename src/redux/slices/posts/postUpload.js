@@ -8,11 +8,18 @@ const initialState = {
   loading: false,
 };
 
-export const postUpload = createAsyncThunk("post/postUpload", async (club) => {
-  const clubId = JSON.parse(localStorage.getItem("club")).data.id;
-  const res = await axios.patch(`${BASE_URL}/clubs/${clubId}`, club, {
-    headers: { "Content-Type": "multipart/form-data" },
-  });
+export const postUpload = createAsyncThunk("post/postUpload", async (data) => {
+  const res = await axios.patch(
+    `${BASE_URL}/instruments/${data.id}`,
+    {
+      instrument: {
+        instrument_photos: data.instrument_photos,
+      },
+    },
+    {
+      headers: { "Content-Type": "multipart/form-data" },
+    }
+  );
 
   return res;
 });

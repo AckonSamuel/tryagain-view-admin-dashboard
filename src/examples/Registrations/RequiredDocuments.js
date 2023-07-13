@@ -137,9 +137,7 @@ function RequiredDocuments() {
                 </MDBox>
                 <MDBox sx={{ marginBottom: "1em" }}>
                   <Paper elevation={6} sx={{ padding: "1em" }}>
-                    <MDTypography variant="h6">
-                      Passport size picture of two executives
-                    </MDTypography>
+                    <MDTypography variant="h6">Passport size picture of two categorys</MDTypography>
                     <Input
                       type="file"
                       disabled={loading}

@@ -1,37 +1,58 @@
 import { configureStore } from "@reduxjs/toolkit";
 import thunk from "redux-thunk";
 import logger from "redux-logger";
-import studentRegisterSlice from "./slices/students/registerSlice";
-import studentLoginSlice from "./slices/students/loginSlice";
-import clubLoginSlice from "./slices/clubs/loginSlice";
-import clubRegisterSlice from "./slices/clubs/registerSlice";
-import postFetchSlice from "./slices/posts/postFetch";
+
+// create
+import categoryCreateSlice from "./slices/categories/addCategorySlice";
+import categoryFetchSlice from "./slices/categories/fetchCategorySlice";
+import labCreateSlice from "./slices/labs/addLabSlice";
+import labFetchSlice from "./slices/labs/fetchLabSlice";
+import instrumentCreateSlice from "./slices/instruments/instrumentCreate";
+import instrumentFetchSlice from "./slices/instruments/instrumentFetch";
+import categoryDeleteSlice from "./slices/categories/deleteCategories";
+import labDeleteSlice from "./slices/labs/deleteLabs";
+import instrumentDeleteSlice from "./slices/instruments/instrumentDelete";
+
+// admin
+import getAdminSlice from "./slices/admin/getAdminSlice";
+import adminLoginSlice from "./slices/admin/loginSlice";
+import adminRegisterSlice from "./slices/admin/registerSlice";
+import adminLogoutSlice from "./slices/admin/logoutSlice";
+
+// upload-instrument-image
 import postUploadSlice from "./slices/posts/postUpload";
-import clubUpdateSlice from "./slices/clubs/updateSlice";
-import myClubFetchSlice from "./slices/clubs/getMyClub";
-import clubLogoutSlice from "./slices/clubs/logoutSlice";
-import executiveCreateSlice from "./slices/clubs/executiveCreate";
-import executiveFetchSlice from "./slices/clubs/executivesFetch";
-import executiveDeleteSlice from "./slices/clubs/executiveDelete";
-import executiveEditSlice from "./slices/clubs/executiveUpdate";
+
+// update
+import instrumentUpdateSlice from "./slices/instruments/instrumentUpdate";
 
 const MyMiddlewares = [logger, thunk];
 
 const store = configureStore({
   reducer: {
-    studentLogin: studentLoginSlice.reducer,
-    studentRegister: studentRegisterSlice.reducer,
-    clubLogin: clubLoginSlice.reducer,
-    clubRegister: clubRegisterSlice.reducer,
-    postFetch: postFetchSlice.reducer,
+    // create
+    categoryCreate: categoryCreateSlice.reducer,
+    labCreate: labCreateSlice,
+    instrumentCreate: instrumentCreateSlice.reducer,
+
+    // fetch
+    categoryFetch: categoryFetchSlice.reducer,
+    labFetch: labFetchSlice.reducer,
+    instrumentFetch: instrumentFetchSlice,
+
+    // delete
+    categoryDelete: categoryDeleteSlice.reducer,
+    labDelete: labDeleteSlice.reducer,
+    instrumentDelete: instrumentDeleteSlice.reducer,
+
+    // update
     postUpload: postUploadSlice.reducer,
-    clubUpdate: clubUpdateSlice.reducer,
-    myClubFetch: myClubFetchSlice.reducer,
-    clubLogout: clubLogoutSlice.reducer,
-    executiveCreate: executiveCreateSlice.reducer,
-    executiveFetch: executiveFetchSlice.reducer,
-    executiveDelete: executiveDeleteSlice.reducer,
-    executiveEdit: executiveEditSlice.reducer,
+    instrumentUpdate: instrumentUpdateSlice.reducer,
+    
+    // admin
+    getAdmin: getAdminSlice.reducer,
+    adminLogin: adminLoginSlice.reducer,
+    adminLogout: adminLogoutSlice.reducer,
+    adminRegister: adminRegisterSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -44,7 +65,7 @@ const store = configureStore({
           "club/clubUpdate/fulfilled",
           "post/postUpload/fulfilled",
           "post/postFetch/fulfilled",
-          "executive/executiveCreate/fulfilled",
+          "category/categoryCreate/fulfilled",
         ],
       },
     }).concat(MyMiddlewares),

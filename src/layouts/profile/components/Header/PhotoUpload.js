@@ -21,7 +21,7 @@ import { postUpload } from "../../../../redux/slices/posts/postUpload";
 
 const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
 
-export default function PhotoUpload({ size, title, regis }) {
+export default function PhotoUpload({ id, size, title, regis }) {
   const dispatch = useDispatch();
   const { register, handleSubmit, getValues } = useForm();
   const [open, setOpen] = React.useState(false);
@@ -44,15 +44,12 @@ export default function PhotoUpload({ size, title, regis }) {
 
   React.useEffect(() => {
     if (submitted) {
+      setSubmitted(false);
       const vad = getValues();
-      const data =
-        regis === "banner_photo"
-          ? {
-              banner_photo: vad.banner_photo[0],
-            }
-          : {
-              profile_photo: vad.profile_photo[0],
-            };
+      const data = {
+        id,
+        instrument_photos: [vad.instrument_photos[0]],
+      };
 
       console.log(data);
 
@@ -68,7 +65,7 @@ export default function PhotoUpload({ size, title, regis }) {
   return (
     <>
       <Tooltip title={title} placement="top" onClick={handleClickOpen}>
-        <Icon fontSize={size}>edit</Icon>
+        <Icon fontSize={size}>Change choto</Icon>
       </Tooltip>
       <MDBox component="form" role="form">
         <Dialog
@@ -119,6 +116,7 @@ PhotoUpload.propTypes = {
   size: PropTypes.string,
   title: PropTypes.string,
   regis: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
 };
 
 PhotoUpload.defaultProps = {

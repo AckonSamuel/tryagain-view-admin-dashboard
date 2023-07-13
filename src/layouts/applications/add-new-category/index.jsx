@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
+import { categoryCreate } from "redux/slices/categories/addCategorySlice";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -11,14 +12,29 @@ import MDInput from "components/MDInput";
 import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
 
-export default function AddCategory() {
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
+export default function Addcategory() {
   const dispatch = useDispatch();
+  const [itemCategory, setitemCategory] = useState([]);
   const [open, setOpen] = useState(false);
   const [scroll, setScroll] = useState("paper");
   const [submitted, setSubmitted] = useState(false);
   const [success, setSuccess] = useState(false);
 
   const { register, getValues, handleSubmit } = useForm();
+
+  const sampleCategory = ["power", "measurement", "protection", "soldering"];
+  const sampleLabs = ["mechanical", "electrical", "computer", "electronics"];
 
   const loading = useSelector((state) => state.categoryCreate.loading);
   const error = useSelector((state) => state.categoryCreate.error);
@@ -46,19 +62,29 @@ export default function AddCategory() {
     }
   }, [open]);
 
-  // useEffect(() => {
-  //   if (submitted) {
-  //     setSubmitted(false);
-  //     const data = getValues();
-  //     dispatch(categoryCreate(data)).then((res) => {
-  //       if (res.type === "category/categoryCreate/fulfilled") {
-  //         setOpen(false);
-  //         setSuccess(true);
-  //         dispatch(categoryFetch());
-  //       }
-  //     });
-  //   }
-  // }, [submitted]);
+  useEffect(() => {
+    if (submitted) {
+      setSubmitted(false);
+      const data = getValues();
+      dispatch(categoryCreate(data)).then((res) => {
+        if (res.type === "category/categoryCreate/fulfilled") {
+          setOpen(false);
+          setSuccess(true);
+          //   dispatch(categoryFetch());
+        }
+      });
+    }
+  }, [submitted]);
+
+  const handleChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setitemCategory(
+      // On autofill we get a stringified value.
+      typeof value === "string" ? value.split(",") : value
+    );
+  };
 
   return (
     <div>
@@ -68,7 +94,7 @@ export default function AddCategory() {
         }}
       >
         <MDButton color="success" onClick={handleClickOpen("paper")}>
-          Add category
+          Add Category
         </MDButton>
       </MDBox>
       <Dialog
@@ -80,7 +106,7 @@ export default function AddCategory() {
         fullWidth
       >
         <MDBox component="form" onSubmit={handleSubmit(onSubmit)} fullWidth>
-          <DialogTitle id="scroll-dialog-title">Add Category</DialogTitle>
+          <DialogTitle id="scroll-dialog-title">Add category</DialogTitle>
           <DialogContent dividers={scroll === "paper"} ref={descriptionElementRef}>
             <MDBox mb={2}>
               <MDInput
@@ -94,42 +120,14 @@ export default function AddCategory() {
             </MDBox>
             <MDBox mb={2}>
               <MDInput
-                type="email"
-                label="E-mail"
-                variant="standard"
-                disabled={loading}
-                fullWidth
-                {...register("email", { required: true })}
-              />
-            </MDBox>
-            <MDBox mb={2}>
-              <MDInput
                 type="text"
-                label="Portfolio"
+                multiline
+                minRow={2}
+                label="Description"
                 variant="standard"
                 disabled={loading}
                 fullWidth
-                {...register("portfolio", { required: true })}
-              />
-            </MDBox>
-            <MDBox mb={2}>
-              <MDInput
-                type="text"
-                label="Programme of Study"
-                variant="standard"
-                disabled={loading}
-                fullWidth
-                {...register("programme", { required: true })}
-              />
-            </MDBox>
-            <MDBox mb={2}>
-              <MDInput
-                type="text"
-                label="Contact"
-                variant="standard"
-                disabled={loading}
-                fullWidth
-                {...register("contact", { required: true })}
+                {...register("category_description", { required: true })}
               />
             </MDBox>
           </DialogContent>

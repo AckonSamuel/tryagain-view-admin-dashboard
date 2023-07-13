@@ -1,4 +1,6 @@
 // @mui material components
+import React, { useEffect, useState } from "react";
+import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import Grid from "@mui/material/Grid";
 
 // Material Dashboard 2 React components
@@ -7,20 +9,31 @@ import MDBox from "components/MDBox";
 // Material Dashboard 2 React example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
-// import Footer from "examples/Footer";
-// import ReportsBarChart from "examples/Charts/BarCharts/ReportsBarChart";
-// import ReportsLineChart from "examples/Charts/LineCharts/ReportsLineChart";
 import ComplexStatisticsCard from "examples/Cards/StatisticsCards/ComplexStatisticsCard";
 
-// Data
-// import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
-// import reportsLineChartData from "layouts/dashboard/data/reportsLineChartData";
+// import { instrumentFetch } from "redux/slices/instruments/instrumentFetch";
+// import { categoryFetch } from "redux/slices/categories/fetchCategorySlice";
+// import { labFetch } from "redux/slices/labs/fetchLabSlice";
 
-// Dashboard components
-// import Projects from "layouts/dashboard/components/Projects";
-// import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
+import SimpleBlogCard from "examples/Cards/BlogCards/SimpleBlogCard";
 
 function Dashboard() {
+  const dispatch = useDispatch();
+  const categories = useSelector((state) => state.categoryFetch.category);
+  const labs = useSelector((state) => state.labFetch.lab);
+  const instruments = useSelector((state) => state.instrumentFetch.instrument);
+
+  // useEffect(() => {
+  //   if (categories.length === 0) {
+  //     dispatch(categoryFetch());
+  //   }
+  //   if (labs.length === 0) {
+  //     dispatch(labFetch());
+  //   }
+  //   if (instruments.length === 0) {
+  //     dispatch(instrumentFetch());
+  //   }
+  // }, [dispatch]);
   // const { sales, tasks } = reportsLineChartData;
 
   return (
@@ -34,7 +47,7 @@ function Dashboard() {
                 color="dark"
                 icon="weekend"
                 title="All Instruments"
-                count={281}
+                count={instruments.length > 0 ? instruments.length : 0}
                 percentage={{
                   color: "success",
                   amount: "+55%",
@@ -48,7 +61,7 @@ function Dashboard() {
               <ComplexStatisticsCard
                 icon="leaderboard"
                 title="All laboratories"
-                count="2,300"
+                count={labs.length > 0 ? labs.length : 0}
                 percentage={{
                   color: "success",
                   amount: "+3%",
@@ -63,7 +76,7 @@ function Dashboard() {
                 color="success"
                 icon="check_box"
                 title="All categories"
-                count="34k"
+                count={categories.length > 0 ? categories.length : 0}
                 percentage={{
                   color: "success",
                   amount: "+1%",
@@ -99,6 +112,15 @@ function Dashboard() {
                   amount: "",
                   label: "Just updated",
                 }}
+              />
+            </MDBox>
+          </Grid>
+          <Grid item xs={12} md={6} lg={4}>
+            <MDBox mb={1.5}>
+              <SimpleBlogCard
+                title="mulitmeter"
+                action={{ type: "internal", route: "/", color: "primary", label: "holy moly" }}
+                description="mulitiment"
               />
             </MDBox>
           </Grid>
