@@ -15,11 +15,12 @@ import Icon from "@mui/material/Icon";
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
-// import MDInput from "components/MDInput";
+import MDInput from "components/MDInput";
 
 // Material Dashboard 2 React example components
 import Breadcrumbs from "examples/Breadcrumbs";
 import NotificationItem from "examples/Items/NotificationItem";
+import Searchbar from "examples/Searchbar";
 
 // Custom styles for DashboardNavbar
 import {
@@ -118,9 +119,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
         </MDBox>
         {isMini ? null : (
           <MDBox sx={(theme) => navbarRow(theme, { isMini })}>
-            {/* <MDBox pr={1}>
-              <MDInput label="Search here" />
-            </MDBox> */}
+            <Searchbar />
             <MDBox color={light ? "white" : "inherit"}>
               <Link to="/profile">
                 <IconButton sx={navbarIconButton} size="small" disableRipple>
