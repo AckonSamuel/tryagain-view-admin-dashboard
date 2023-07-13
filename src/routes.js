@@ -26,13 +26,14 @@ import Applications from "layouts/applications";
 import Settings from "layouts/settings";
 // import Profile from "layouts/profile";
 // import UpdateClubForm from "layouts/updates";
-// import Logout from "layouts/authentication/sign-out";
-// import SignIn from "layouts//authentication/sign-in";
-// import SignUp from "layouts/authentication/sign-up";
+import Logout from "layouts/authentication/sign-out";
+import SignIn from "layouts/authentication/sign-in";
+import SignUp from "layouts/authentication/sign-up";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
 import AddCategory from "./layouts/applications/add-new-category";
+import InstrumentDetails from "./layouts/applications/instrument-details";
 // import Tables from "layouts/tables";
 // import Witness from "examples/Registrations/Witness";
 // import RequiredDocuments from "examples/Registrations/RequiredDocuments";
@@ -48,10 +49,10 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Applications",
-    key: "application",
+    name: "Instruments",
+    key: "instruments",
     icon: <Icon fontSize="small">note</Icon>,
-    route: "/application",
+    route: "/instruments",
     component: <Applications />,
   },
   {
@@ -78,22 +79,36 @@ const routes = [
   //   route: "/profile/edit",
   //   component: <UpdateClubForm />,
   // },
-  // {
-  //   // type: "collapse",
-  //   name: "Signout",
-  //   key: "logout",
-  //   icon: <Icon fontSize="small">logout</Icon>,
-  //   route: "/club/logout",
-  //   component: <Logout />,
-  // },
-  // {
-  //   type: "collapse",
-  //   name: "Executives",
-  //   key: "executives",
-  //   icon: <Icon fontSize="small">person</Icon>,
-  //   route: "/executive",
-  //   component: <Tables />,
-  // },
+  {
+    // type: "collapse",
+    name: "Signout",
+    key: "logout",
+    icon: <Icon fontSize="small">logout</Icon>,
+    route: "/club/logout",
+    component: <Logout />,
+  },
+  {
+    // type: "collapse",
+    name: "Sign-in",
+    key: "sign-in",
+    icon: <Icon fontSize="small">logout</Icon>,
+    route: "/",
+    component: <SignIn />,
+  },
+  {
+    // type: "collapse",
+    name: "Sign-up",
+    key: "sign-up",
+    icon: <Icon fontSize="small">logout</Icon>,
+    route: "/authentication/sign-up",
+    component: <SignUp />,
+  },
+  {
+    route: "/:common",
+    key: "details",
+    name: "details",
+    component: <InstrumentDetails />,
+  },
   // {
   //   type: "collapse",
   //   name: "Witness 1",
