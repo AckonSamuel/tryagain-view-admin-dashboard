@@ -1,3 +1,5 @@
+import { setId } from "redux/slices/instruments/instrumentFetch";
+import { useDispatch } from "react-redux";
 // react-router components
 import { Link } from "react-router-dom";
 
@@ -13,7 +15,13 @@ import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
 
-function SimpleBlogCard({ image, title, description, action }) {
+function SimpleBlogCard({ id, image, title, description, action }) {
+  const dispatch = useDispatch();
+
+  const handleId = () => {
+    dispatch(setId(id));
+  };
+
   return (
     <Card>
       <MDBox position="relative" borderRadius="lg" mt={-3} mx={2}>
@@ -58,7 +66,7 @@ function SimpleBlogCard({ image, title, description, action }) {
             <MDButton color={action.color ? action.color : "dark"}>{action.label}</MDButton>
           </MuiLink>
         ) : (
-          <Link to={action.route}>
+          <Link to={action.route} onClick={handleId}>
             <MDButton color={action.color ? action.color : "dark"}>{action.label}</MDButton>
           </Link>
         )}
@@ -67,9 +75,14 @@ function SimpleBlogCard({ image, title, description, action }) {
   );
 }
 
+SimpleBlogCard.defaultProps = {
+  image: "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg",
+};
+
 // Typechecking props for the SimpleBlogCard
 SimpleBlogCard.propTypes = {
-  image: PropTypes.string.isRequired,
+  image: PropTypes.string,
+  id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   action: PropTypes.shape({
