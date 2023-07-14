@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import React from "react";
+import { useSelector, shallowEqual } from "react-redux";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import MDBox from "components/MDBox";
@@ -7,8 +7,7 @@ import Grid from "@mui/material/Grid";
 import SimpleBlogCard from "examples/Cards/BlogCards/SimpleBlogCard";
 import AddInstrument from "./new-instruments";
 
-function Applications() {
-  const dispatch = useDispatch();
+function Instruments() {
   const { instrument, searchArr } = useSelector((state) => state.instrumentFetch, shallowEqual);
   const instruments = searchArr.length > 0 ? searchArr : instrument;
 
@@ -43,4 +42,4 @@ function Applications() {
   );
 }
 
-export default Applications;
+export default Instruments;
