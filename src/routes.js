@@ -23,7 +23,6 @@
 // Material Dashboard 2 React layouts
 import Dashboard from "layouts/dashboard";
 import Applications from "layouts/applications";
-import Settings from "layouts/settings";
 // import Profile from "layouts/profile";
 // import UpdateClubForm from "layouts/updates";
 import Logout from "layouts/authentication/sign-out";
@@ -54,14 +53,6 @@ const routes = [
     icon: <Icon fontSize="small">note</Icon>,
     route: "/instruments",
     component: <Applications />,
-  },
-  {
-    type: "collapse",
-    name: "Settings",
-    key: "settings",
-    icon: <Icon fontSize="small">settings</Icon>,
-    route: "/settings",
-    component: <Settings />,
   },
   {
     type: "collapse",
