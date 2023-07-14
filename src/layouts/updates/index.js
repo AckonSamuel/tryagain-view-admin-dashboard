@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+
 import React, { useRef, useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
@@ -17,8 +19,9 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Chip from "@mui/material/Chip";
 import { labFetch } from "redux/slices/labs/fetchLabSlice";
-import { instrumentCreate } from "redux/slices/instruments/instrumentCreate";
 import { categoryFetch } from "redux/slices/categories/fetchCategorySlice";
+import { instrumentUpdate } from "redux/slices/instruments/instrumentUpdate";
+import { instrumentFetch } from "redux/slices/instruments/instrumentFetch";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -37,42 +40,51 @@ export default function UpdateInstrument() {
   const [scroll, setScroll] = useState("paper");
   const [submitted, setSubmitted] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [itemCategory, setItemCategory] = useState([]);
+  const [itemLab, setItemLab] = useState([]);
 
-  const { register, getValues, handleSubmit } = useForm();
+  const { register, getValues, handleSubmit, setValue } = useForm();
 
   const sampleCategory = useSelector((state) => state.categoryFetch.category);
   const sampleLabs = useSelector((state) => state.labFetch.lab);
-  const { loading, error } = useSelector((state) => state.instrumentUpdate);
-  const { id , instrument } = useSelector((state) => state.instrumentFetch);
+  const { loading, error, instrument } = useSelector((state) => state.instrumentUpdate);
+  const instruments = useSelector((state) => state.instrumentFetch.instrument);
 
-  console.log(instrument);
-  console.log(id);
-  const targetInstrument = instrument.find((item) => item.id === id);
-  console.log(targetInstrument);
-  const { 
-    instrument_name,
-    manufacturing_year,
-    model,
-    price,
-    description,
-    resolution,
-    range,
-    accuracy,
-    categories,
-    labs
-  } = targetInstrument.attributes;
+  const instrumentId = JSON.parse(localStorage.getItem("instrumentId"));
+  const targetInstrument =
+    instruments.length > 0 ? instruments.find((item) => item.id === instrumentId) : instrument;
 
-  const [instrumentName, setInstrumentName] = useState(instrument_name);
-  console.log(instrumentName);
-  const [manufacturingYear, setManufacturingYear] = useState(manufacturing_year);
-  const [cmodel, setModel] = useState(model);
-  const [cprice, setPrice] = useState(price);
-  const [cdescription, setDescription] = useState(description);
-  const [cresolution, setResolution] = useState(resolution);
-  const [ crange, setRange ] = useState(range);
-  const [caccuracy, setAccuracy] = useState(accuracy);
-  const [itemCategory, setItemCategory] = useState(categories && categories.length > 0 ? categories : []);
-  const [itemLab, setItemLab] = useState(labs && labs.length > 0 ? labs : []);
+  const checkTargetInstrument = () => {
+    if (targetInstrument && targetInstrument.attributes) {
+      const {
+        instrument_name,
+        manufacturing_year,
+        model,
+        price,
+        description,
+        resolution,
+        range,
+        accuracy,
+        categories,
+        labs,
+      } = targetInstrument.attributes;
+
+      setValue("instrument_name", instrument_name);
+      setValue("manufacturing_year", manufacturing_year);
+      setValue("model", model);
+      setValue("price", price);
+      setValue("description", description);
+      setValue("resolution", resolution);
+      setValue("range", range);
+      setValue("accuracy", accuracy);
+      setItemCategory(categories);
+      setItemLab(labs);
+    }
+  };
+
+  useEffect(() => {
+    checkTargetInstrument();
+  }, []);
 
   const handleClickOpen = (scrollType) => () => {
     setOpen(true);
@@ -107,12 +119,11 @@ export default function UpdateInstrument() {
     if (submitted) {
       setSubmitted(false);
       const data = getValues();
-      console.log(data);
-      dispatch(instrumentCreate(data)).then((res) => {
-        if (res.type === "instrument/instrumentCreate/fulfilled") {
+      dispatch(instrumentUpdate([instrumentId, data])).then((res) => {
+        if (res.type === "instrument/instrumentUpdate/fulfilled") {
+          dispatch(instrumentFetch());
           setOpen(false);
           setSuccess(true);
-          // dispatch(instrumentFetch());
         }
       });
     }
@@ -133,7 +144,7 @@ export default function UpdateInstrument() {
   };
 
   return (
-    <div>
+    <>
       <MDBox sx={{ marginLeft: 5 }}>
         <MDButton color="success" onClick={handleClickOpen("paper")}>
           Update instrument
@@ -155,14 +166,9 @@ export default function UpdateInstrument() {
                 type="text"
                 label="Name of Instrument"
                 variant="standard"
-                value={instrumentName}
-                onChange={(e) => {
-                  e.preventDefault();
-                  setInstrumentName(e.target.value);
-                }}
                 disabled={loading}
                 fullWidth
-                {...register("instrument_name", { required: true })}
+                {...register("instrument_name")}
               />
             </MDBox>
             <MDBox mb={2}>
@@ -170,29 +176,19 @@ export default function UpdateInstrument() {
                 type="number"
                 label="Manufacturing Year"
                 variant="standard"
-                value={manufacturingYear}
-                onChange={(e) => {
-                  e.preventDefault();
-                  setManufacturingYear(e.target.value);
-                }}
                 disabled={loading}
                 fullWidth
-                {...register("manufacturing_year", { required: true })}
+                {...register("manufacturing_year")}
               />
             </MDBox>
             <MDBox mb={2}>
               <MDInput
                 type="text"
                 label="Model"
-                value={cmodel}
-                onChange={(e) => {
-                  e.preventDefault();
-                  setModel(e.target.value);
-                }}
                 variant="standard"
                 disabled={loading}
                 fullWidth
-                {...register("model", { required: true })}
+                {...register("model")}
               />
             </MDBox>
             <MDBox mb={2}>
@@ -200,14 +196,9 @@ export default function UpdateInstrument() {
                 type="number"
                 label="Price"
                 variant="standard"
-                value={cprice}
-                onChange={(e) => {
-                  e.preventDefault();
-                  setPrice(e.target.value);
-                }}
                 disabled={loading}
                 fullWidth
-                {...register("price", { required: true })}
+                {...register("price")}
               />
             </MDBox>
             <MDBox mb={2}>
@@ -216,14 +207,9 @@ export default function UpdateInstrument() {
                 label="Description"
                 variant="standard"
                 disabled={loading}
-                value={cdescription}
-                onChange={(e) => {
-                  e.preventDefault();
-                  setDescription(e.target.value);
-                }}
                 fullWidth
                 multiline
-                {...register("description", { required: true })}
+                {...register("description")}
               />
             </MDBox>
             <MDBox mb={2}>
@@ -231,14 +217,9 @@ export default function UpdateInstrument() {
                 type="text"
                 label="Resolution"
                 variant="standard"
-                value={cresolution}
-                onChange={(e) => {
-                  e.preventDefault();
-                  setResolution(e.target.value);
-                }}
                 disabled={loading}
                 fullWidth
-                {...register("resolution", { required: true })}
+                {...register("resolution")}
               />
             </MDBox>
             <MDBox mb={2}>
@@ -246,14 +227,9 @@ export default function UpdateInstrument() {
                 type="text"
                 label="Range"
                 variant="standard"
-                value={crange}
-                onChange={(e) => {
-                  e.preventDefault();
-                  setRange(e.target.value);
-                }}
                 disabled={loading}
                 fullWidth
-                {...register("range", { required: true })}
+                {...register("range")}
               />
             </MDBox>
             <MDBox mb={2}>
@@ -262,13 +238,8 @@ export default function UpdateInstrument() {
                 label="Accuracy"
                 variant="standard"
                 disabled={loading}
-                value={caccuracy}
-                onChange={(e) => {
-                  e.preventDefault();
-                  setAccuracy(e.target.value);
-                }}
                 fullWidth
-                {...register("accuracy", { required: true })}
+                {...register("accuracy")}
               />
             </MDBox>
             <MDBox mb={2}>
@@ -278,9 +249,10 @@ export default function UpdateInstrument() {
                   labelId="demo-multiple-chip-label"
                   id="demo-multiple-chip"
                   multiple
+                  required
+                  value={itemCategory}
                   sx={{ minHeight: 50 }}
                   {...register("categories")}
-                  value={itemCategory}
                   onChange={handleCategoryChange}
                   input={<OutlinedInput id="select-multiple-chip" label="categories" />}
                   renderValue={(selected) => (
@@ -314,9 +286,10 @@ export default function UpdateInstrument() {
                   labelId="demo-multiple-chip-label"
                   id="demo-multiple-chip"
                   multiple
+                  required
+                  value={itemLab}
                   {...register("labs")}
                   sx={{ minHeight: 50 }}
-                  value={itemLab}
                   onChange={handleLabChange}
                   input={<OutlinedInput id="select-multiple-chip" label="labs" />}
                   renderValue={(selected) => (
@@ -356,6 +329,6 @@ export default function UpdateInstrument() {
           {success && <MDTypography color="warning">Add category unsuccessful</MDTypography>}
         </MDBox>
       </Dialog>
-    </div>
+    </>
   );
 }

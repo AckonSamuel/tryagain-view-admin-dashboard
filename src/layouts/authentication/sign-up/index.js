@@ -9,8 +9,6 @@ import Checkbox from "@mui/material/Checkbox";
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
 
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";

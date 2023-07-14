@@ -81,7 +81,6 @@ export default function AddCategory() {
     if (submitted) {
       setSubmitted(false);
       const data = getValues();
-      console.log(data);
       dispatch(instrumentCreate(data)).then((res) => {
         if (res.type === "instrument/instrumentCreate/fulfilled") {
           setOpen(false);

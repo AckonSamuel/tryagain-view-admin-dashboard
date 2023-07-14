@@ -52,8 +52,9 @@ Image.defaultProps = {
   itemImage: "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg",
 };
 
-Image.PropTypes = {
+Image.propTypes = {
   itemImage: PropTypes.string,
+  id: PropTypes.string.isRequired,
 };
 
 export default Image;

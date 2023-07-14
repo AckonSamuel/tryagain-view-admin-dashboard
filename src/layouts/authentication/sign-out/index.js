@@ -31,7 +31,7 @@ export default function Logout() {
   };
 
   const loading = useSelector((state) => state.adminLogout.loading, shallowEqual);
-  const error = useSelector((state) => state.adminLogout.error, shallowEqual);
+  // const error = useSelector((state) => state.adminLogout.error, shallowEqual);
 
   useEffect(() => {
     if (submitted) {

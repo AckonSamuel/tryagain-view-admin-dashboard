@@ -1,4 +1,5 @@
-import { useSelector, shallowEqual } from "react-redux";
+/* eslint-disable camelcase */
+
 import PropTypes from "prop-types";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
@@ -6,16 +7,7 @@ import MDTypography from "components/MDTypography";
 function Data({ instrument }) {
   const { attributes } = instrument;
 
-  const {
-    categories,
-    labs,
-    description,
-    instrument_photos_url,
-    manufacturing_year,
-    model,
-    price,
-    instrument_name,
-  } = attributes;
+  const { description, manufacturing_year, model, price, instrument_name } = attributes;
 
   return (
     <MDBox>
@@ -31,5 +23,9 @@ function Data({ instrument }) {
     </MDBox>
   );
 }
+
+Data.propTypes = {
+  instrument: PropTypes.objectOf(PropTypes.array).isRequired,
+};
 
 export default Data;

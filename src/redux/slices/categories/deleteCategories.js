@@ -9,17 +9,7 @@ const initialState = {
 };
 
 export const categoryDelete = createAsyncThunk("category/categoryDelete", async (ids) => {
-  // const clubId = JSON.parse(localStorage.getItem("club")).data.id;
-  // const token = JSON.parse(localStorage.getItem("admin")).accessToken;
-  const res = await axios.delete(
-    `${BASE_URL}/category/`,
-    { category: { ...ids } },
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
+  const res = await axios.delete(`${BASE_URL}/category/`, { category: { ...ids } });
 
   return res.data;
 });

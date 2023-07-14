@@ -5,14 +5,12 @@ import BASE_URL from "../../common";
 const initialState = {
   instrument: [],
   searchArr: [],
-  id: "",
   search: "",
   error: "",
   loading: false,
 };
 
 export const instrumentFetch = createAsyncThunk("instrument/instrumentFetch", async () => {
-  const token = JSON.parse(localStorage.getItem("admin")).accessToken;
   const res = await axios.get(`${BASE_URL}/instruments/`);
   return res.data;
 });
@@ -34,12 +32,6 @@ const instrumentFetchSlice = createSlice({
       ...state,
       search: action.payload,
     }),
-
-    setId: (state, action) => ({
-      ...state,
-      id: action.payload,
-    })
-  
   },
   extraReducers: (builder) => {
     builder.addCase(instrumentFetch.pending, (state) => {
@@ -62,6 +54,6 @@ const instrumentFetchSlice = createSlice({
 
 const { actions, reducer } = instrumentFetchSlice;
 
-export const { searchTitle, search, setId } = actions;
+export const { searchTitle, search } = actions;
 
 export default reducer;

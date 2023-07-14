@@ -1,4 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState, forwardRef } from "react";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -31,17 +32,20 @@ export default function DeleteInstrument() {
     setOpen(false);
   };
 
-  const { loading, error }= useSelector((state) => state.instrumentDelete, shallowEqual);
-  const { id } = useSelector((state) => state.instrumentFetch, shallowEqual);
+  const { loading, error } = useSelector((state) => state.instrumentDelete, shallowEqual);
+  const id = JSON.parse(localStorage.getItem("instrumentId"));
 
   useEffect(() => {
     if (submitted) {
       setSubmitted(false);
       dispatch(instrumentDelete(id)).then((res) => {
         if (res.type === "instrument/instrumentDelete/fulfilled") {
-          setOpen(false);
-          dispatch(instrumentFetch());
-          navigate("/instruments");
+          dispatch(instrumentFetch()).then((result) => {
+            if (result.type === "instrument/instrumentFetch/fulfilled") {
+              setOpen(false);
+              navigate("/instruments");
+            }
+          });
         }
       });
     }

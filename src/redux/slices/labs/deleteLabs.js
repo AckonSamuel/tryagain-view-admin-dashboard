@@ -9,17 +9,7 @@ const initialState = {
 };
 
 export const labDelete = createAsyncThunk("lab/labDelete", async (ids) => {
-  // const clubId = JSON.parse(localStorage.getItem("club")).data.id;
-  // const token = JSON.parse(localStorage.getItem("admin")).accessToken;
-  const res = await axios.delete(
-    `${BASE_URL}/labs/`,
-    { lab: { ...ids } },
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
+  const res = await axios.delete(`${BASE_URL}/labs/`, { lab: { ...ids } });
 
   return res.data;
 });

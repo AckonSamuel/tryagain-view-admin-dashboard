@@ -51,8 +51,6 @@ export default function PhotoUpload({ id, size, title, regis }) {
         instrument_photos: [vad.instrument_photos[0]],
       };
 
-      console.log(data);
-
       dispatch(postUpload(data)).then((res) => {
         if (res.type === "post/postUpload/fulfilled") {
           setOpen(false);
@@ -65,7 +63,7 @@ export default function PhotoUpload({ id, size, title, regis }) {
   return (
     <>
       <Tooltip title={title} placement="top" onClick={handleClickOpen}>
-        <Icon fontSize={size}>Change choto</Icon>
+        <Icon fontSize={size}>edit</Icon>
       </Tooltip>
       <MDBox component="form" role="form">
         <Dialog

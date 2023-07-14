@@ -8,13 +8,15 @@ const initialState = {
   loading: false,
 };
 
-export const instrumentUpdate = createAsyncThunk("instrument/instrumentUpdate", async (instrument) => {
-  const res = await axios.patch(
-    `${BASE_URL}/instruments/${instrument.id}`,
-    { instrument: instrument.data }
-  );
-  return res.data;
-});
+export const instrumentUpdate = createAsyncThunk(
+  "instrument/instrumentUpdate",
+  async (instrument) => {
+    const res = await axios.patch(`${BASE_URL}/instruments/${instrument[0]}`, {
+      instrument: instrument[1],
+    });
+    return res.data;
+  }
+);
 
 const instrumentUpdateSlice = createSlice({
   name: "instrument",

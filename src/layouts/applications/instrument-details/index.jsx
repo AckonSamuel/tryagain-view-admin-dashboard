@@ -1,21 +1,18 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector, shallowEqual } from "react-redux";
-import PropTypes from "prop-types";
+import { useSelector, shallowEqual } from "react-redux";
 import Stack from "@mui/material/Container";
 import MDBox from "components/MDBox";
 // Material Dashboard 2 React example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
-import DeleteInstrument from "../delete-instrument";
 import UpdateInstrument from "layouts/updates";
+import DeleteInstrument from "../delete-instrument";
 import Image from "./data/Image";
 import Data from "./data";
 import Return from "./return";
 
-
 function InstrumentDetails() {
-  const dispatch = useDispatch();
-  const { instrument, id } = useSelector((state) => state.instrumentFetch, shallowEqual);
+  const { instrument } = useSelector((state) => state.instrumentFetch, shallowEqual);
+  const id = JSON.parse(localStorage.getItem("instrumentId"));
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -24,7 +21,7 @@ function InstrumentDetails() {
         <DeleteInstrument />
         <UpdateInstrument />
         {instrument
-          .filter((item) => item.id === id )
+          .filter((item) => item.id === id)
           .map((item) => (
             <Stack direction="row">
               <Image
@@ -42,9 +39,5 @@ function InstrumentDetails() {
     </DashboardLayout>
   );
 }
-
-InstrumentDetails.propTypes = {
-  instruments: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
-};
 
 export default InstrumentDetails;

@@ -47,7 +47,7 @@ const store = configureStore({
     // update
     postUpload: postUploadSlice.reducer,
     instrumentUpdate: instrumentUpdateSlice.reducer,
-    
+
     // admin
     getAdmin: getAdminSlice.reducer,
     adminLogin: adminLoginSlice.reducer,
