@@ -1,10 +1,10 @@
 {
-  "name": "clubs-and-socities-platform",
+  "name": "Labsdb",
   "version": "1.0.0",
   "private": true,
   "author": "Ackon",
   "license": "See license in #/license",
-  "description": "KNUST Clubs and Socities platform",
+  "description": "KNSUT College of Engineering Online lab instruments repository",
   "bugs": {
     "url": "https://github.com/creativetimofficial/tryagain_view/issues"
   },

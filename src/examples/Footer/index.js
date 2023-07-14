@@ -84,12 +84,12 @@ function Footer({ company, links }) {
 
 // Setting default values for the props of Footer
 Footer.defaultProps = {
-  company: { href: "#/", name: "KNUST SRC" },
+  company: { href: "#/", name: "KNUST COE" },
   links: [
-    { href: "#/", name: "Clubs and Societies" },
-    { href: "#/presentation", name: "About Us" },
-    { href: "#/blog", name: "Blog" },
-    { href: "#/license", name: "License" },
+    { href: "#", name: "KNUST COE Labsdb" },
+    { href: "#", name: "About Us" },
+    { href: "#", name: "Blog" },
+    { href: "#", name: "License" },
   ],
 };
 

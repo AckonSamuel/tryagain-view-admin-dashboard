@@ -75,7 +75,7 @@ const routes = [
     name: "Signout",
     key: "logout",
     icon: <Icon fontSize="small">logout</Icon>,
-    route: "/club/logout",
+    route: "/admin/logout",
     component: <Logout />,
   },
   {

@@ -220,7 +220,7 @@ function Cover() {
                 type="submit"
                 fullWidth
               >
-                {loading ? "Creating club..." : "Join Clubs"}
+                {loading ? "Creating Admin..." : "Become an admin"}
               </MDButton>
             </MDBox>
             {error.length > 0 && (
