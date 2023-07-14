@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import MDBox from "components/MDBox";
 import MDInput from "components/MDInput";
