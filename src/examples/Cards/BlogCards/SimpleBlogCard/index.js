@@ -1,5 +1,3 @@
-import { setId } from "redux/slices/instruments/instrumentFetch";
-import { useDispatch } from "react-redux";
 // react-router components
 import { Link } from "react-router-dom";
 
@@ -16,10 +14,8 @@ import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
 
 function SimpleBlogCard({ id, image, title, description, action }) {
-  const dispatch = useDispatch();
-
   const handleId = () => {
-    dispatch(setId(id));
+    localStorage.setItem("instrumentId", JSON.stringify(id));
   };
 
   return (
