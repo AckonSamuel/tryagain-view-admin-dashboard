@@ -36,7 +36,6 @@ export default function DeleteCategory({ categoryId }) {
   const { loading, error } = useSelector((state) => state.categoryDelete, shallowEqual);
   const { category } = useSelector((state) => state.categoryFetch, shallowEqual);
   const targetCategory = category.find((item) => item.id === categoryId);
-  console.log(targetCategory);
 
   useEffect(() => {
     if (submitted) {

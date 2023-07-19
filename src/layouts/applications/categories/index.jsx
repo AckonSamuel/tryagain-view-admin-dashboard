@@ -1,4 +1,3 @@
-import { useSelector, shallowEqual } from "react-redux";
 import MDBox from "components/MDBox";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
@@ -7,7 +6,6 @@ import Data from "./data";
 import Addcategory from "./add-new-category";
 
 function Categories() {
-  const { category } = useSelector((state) => state.categoryFetch, shallowEqual);
   const { columns, rows } = Data();
 
   return (

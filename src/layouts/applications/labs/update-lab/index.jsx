@@ -31,7 +31,6 @@ export default function UpdateLab({ labId }) {
 
   const targetlab = labs && labs.length > 0 ? labs.find((item) => item.id === labId) : lab;
 
-  console.log(targetlab);
   const checkTargetlab = () => {
     if (targetlab && targetlab.attributes) {
       const { lab_name, lab_location } = targetlab.attributes;

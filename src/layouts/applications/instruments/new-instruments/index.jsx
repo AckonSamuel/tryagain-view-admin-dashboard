@@ -18,6 +18,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Chip from "@mui/material/Chip";
 import { labFetch } from "redux/slices/labs/fetchLabSlice";
+import { instrumentFetch } from "redux/slices/instruments/instrumentFetch";
 import { instrumentCreate } from "redux/slices/instruments/instrumentCreate";
 import { categoryFetch } from "redux/slices/categories/fetchCategorySlice";
 

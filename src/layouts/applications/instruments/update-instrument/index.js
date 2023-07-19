@@ -146,7 +146,12 @@ export default function UpdateInstrument({ targetId }) {
 
   return (
     <>
-      <Tooltip sx={{ cursor: "pointer" }} title="edit" placement="top" onClick={handleClickOpen("paper")}>
+      <Tooltip
+        sx={{ cursor: "pointer" }}
+        title="edit"
+        placement="top"
+        onClick={handleClickOpen("paper")}
+      >
         <Icon fontSize="small">edit</Icon>
       </Tooltip>
       <Dialog

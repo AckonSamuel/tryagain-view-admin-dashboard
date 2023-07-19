@@ -38,7 +38,6 @@ export default function DeleteLab({ labId }) {
   const { loading, error } = useSelector((state) => state.labDelete, shallowEqual);
   const { lab } = useSelector((state) => state.labFetch, shallowEqual);
   const targetlab = lab.find((item) => item.id === labId);
-  console.log(targetlab);
 
   useEffect(() => {
     if (submitted) {
