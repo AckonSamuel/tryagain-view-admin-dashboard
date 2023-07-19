@@ -9,7 +9,7 @@ const initialState = {
 };
 
 export const categoryDelete = createAsyncThunk("category/categoryDelete", async (ids) => {
-  const res = await axios.delete(`${BASE_URL}/category/`, { category: { ...ids } });
+  const res = await axios.delete(`${BASE_URL}/categories/${ids}`);
 
   return res.data;
 });

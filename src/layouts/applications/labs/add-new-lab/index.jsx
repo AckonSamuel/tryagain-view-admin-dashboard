@@ -8,12 +8,13 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import Tooltip from "@mui/material/Tooltip";
+import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import { labCreate } from "redux/slices/labs/addLabSlice";
 import { labFetch } from "redux/slices/labs/fetchLabSlice";
 import MDBox from "components/MDBox";
 import MDInput from "components/MDInput";
 import MDTypography from "components/MDTypography";
-import MDButton from "components/MDButton";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -66,7 +67,7 @@ export default function AddLab() {
       setSubmitted(false);
       const data = getValues();
       dispatch(labCreate(data)).then((res) => {
-        if (res.type === "category/categoryCreate/fulfilled") {
+        if (res.type === "lab/labCreate/fulfilled") {
           setOpen(false);
           setSuccess(true);
           dispatch(labFetch());
@@ -76,16 +77,15 @@ export default function AddLab() {
   }, [submitted]);
 
   return (
-    <div>
-      <MDBox
-        sx={{
-          marginLeft: 5,
-        }}
+    <>
+      <Tooltip
+        sx={{ cursor: "pointer" }}
+        title="add new lab"
+        placement="top"
+        onClick={handleClickOpen("paper")}
       >
-        <MDButton color="success" onClick={handleClickOpen("paper")}>
-          Add new lab
-        </MDButton>
-      </MDBox>
+        <ControlPointIcon />
+      </Tooltip>
       <Dialog
         open={open}
         onClose={handleClose}
@@ -126,10 +126,10 @@ export default function AddLab() {
               Save
             </Button>
           </DialogActions>
-          {error && <MDTypography color="warning">Add category unsuccessful</MDTypography>}
-          {success && <MDTypography color="warning">Add category unsuccessful</MDTypography>}
+          {error && <MDTypography color="warning">Add lab unsuccessful</MDTypography>}
+          {success && <MDTypography color="warning">Add lab unsuccessful</MDTypography>}
         </MDBox>
       </Dialog>
-    </div>
+    </>
   );
 }

@@ -22,20 +22,16 @@
 
 // Material Dashboard 2 React layouts
 import Dashboard from "layouts/dashboard";
-import Applications from "layouts/applications";
-// import Profile from "layouts/profile";
-// import UpdateClubForm from "layouts/updates";
+import Instruments from "layouts/applications/instruments/admin";
 import Logout from "layouts/authentication/sign-out";
 import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
-import AddCategory from "./layouts/applications/add-new-category";
-import InstrumentDetails from "./layouts/applications/instrument-details";
-// import Tables from "layouts/tables";
-// import Witness from "examples/Registrations/Witness";
-// import RequiredDocuments from "examples/Registrations/RequiredDocuments";
+import Category from "layouts/applications/categories";
+import Lab from "layouts/applications/labs";
+import InstrumentDetails from "./layouts/applications/instruments/instrument-details";
 
 const routes = [
   {
@@ -52,24 +48,24 @@ const routes = [
     key: "instruments",
     icon: <Icon fontSize="small">note</Icon>,
     route: "/instruments",
-    component: <Applications />,
+    component: <Instruments />,
   },
   {
     type: "collapse",
-    name: "add-category",
-    key: "sign-up",
-    icon: <Icon fontSize="small">Add Category</Icon>,
-    route: "/add-category",
-    component: <AddCategory />,
+    name: "Categories",
+    key: "Category",
+    icon: <Icon fontSize="small">item</Icon>,
+    route: "/Categories",
+    component: <Category />,
   },
-  // {
-  //   type: "collapse",
-  //   name: "Club Update",
-  //   key: "update",
-  //   icon: <Icon fontSize="small">edit</Icon>,
-  //   route: "/profile/edit",
-  //   component: <UpdateClubForm />,
-  // },
+  {
+    type: "collapse",
+    name: "Labs",
+    key: "Labs",
+    icon: <Icon fontSize="small">item</Icon>,
+    route: "/Labs",
+    component: <Lab />,
+  },
   {
     // type: "collapse",
     name: "Signout",
@@ -100,30 +96,6 @@ const routes = [
     name: "details",
     component: <InstrumentDetails />,
   },
-  // {
-  //   type: "collapse",
-  //   name: "Witness 1",
-  //   key: "witness_one",
-  //   icon: <Icon fontSize="small">person</Icon>,
-  //   route: "/first_witness",
-  //   component: <Witness />,
-  // },
-  // {
-  //   type: "collapse",
-  //   name: "Witness 2",
-  //   key: "witness_two",
-  //   icon: <Icon fontSize="small">person</Icon>,
-  //   route: "/second_witness",
-  //   component: <Witness />,
-  // },
-  // {
-  //   type: "collapse",
-  //   name: "Required Document",
-  //   key: "req_docs",
-  //   icon: <Icon fontSize="small">notes</Icon>,
-  //   route: "/required-documents",
-  //   component: <RequiredDocuments />,
-  // },
 ];
 
 export default routes;

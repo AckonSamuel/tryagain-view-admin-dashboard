@@ -32,6 +32,7 @@ function DataTable({
   pagination,
   isSorted,
   noEndBorder,
+  AddNew,
 }) {
   const defaultValue = entriesPerPage.defaultValue ? entriesPerPage.defaultValue : 10;
   const entries = entriesPerPage.entries
@@ -153,18 +154,23 @@ function DataTable({
             </MDBox>
           )}
           {canSearch && (
-            <MDBox width="12rem" ml="auto">
-              <MDInput
-                placeholder="Search..."
-                value={search}
-                size="small"
-                fullWidth
-                onChange={({ currentTarget }) => {
-                  setSearch(search);
-                  onSearchChange(currentTarget.value);
-                }}
-              />
-            </MDBox>
+            <>
+              <MDBox mr="auto">
+                <AddNew />
+              </MDBox>
+              <MDBox width="12rem" ml="auto">
+                <MDInput
+                  placeholder="Search..."
+                  value={search}
+                  size="small"
+                  fullWidth
+                  onChange={({ currentTarget }) => {
+                    setSearch(search);
+                    onSearchChange(currentTarget.value);
+                  }}
+                />
+              </MDBox>
+            </>
           )}
         </MDBox>
       ) : null}
@@ -189,10 +195,7 @@ function DataTable({
           {page.map((row, key) => {
             prepareRow(row);
             return (
-              <TableRow
-                {...row.getRowProps()}
-                // id={rowlet[key]}
-              >
+              <TableRow {...row.getRowProps()}>
                 {row.cells.map((cell) => (
                   <DataTableBodyCell
                     noBorder={noEndBorder && rows.length - 1 === key}
@@ -292,6 +295,7 @@ DataTable.propTypes = {
   }),
   isSorted: PropTypes.bool,
   noEndBorder: PropTypes.bool,
+  AddNew: PropTypes.node.isRequired,
 };
 
 export default DataTable;

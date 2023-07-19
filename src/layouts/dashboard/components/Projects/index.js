@@ -15,9 +15,9 @@ import DataTable from "examples/Tables/DataTable";
 
 // Data
 import data from "layouts/dashboard/components/Projects/data";
-import AddEquipment from "layouts/applications/new-instruments";
-import AddCategory from "layouts/applications/add-new-category";
-import AddLab from "layouts/applications/add-new-lab";
+import AddEquipment from "layouts/applications/instruments/new-instruments";
+import AddCategory from "layouts/applications/categories/add-new-category";
+import AddLab from "layouts/applications/labs/add-new-lab";
 
 function Projects() {
   const { columns, rows } = data();

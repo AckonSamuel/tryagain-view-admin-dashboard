@@ -4,13 +4,17 @@ import logger from "redux-logger";
 
 // create
 import categoryCreateSlice from "./slices/categories/addCategorySlice";
-import categoryFetchSlice from "./slices/categories/fetchCategorySlice";
 import labCreateSlice from "./slices/labs/addLabSlice";
-import labFetchSlice from "./slices/labs/fetchLabSlice";
 import instrumentCreateSlice from "./slices/instruments/instrumentCreate";
+
+// fetch
 import instrumentFetchSlice from "./slices/instruments/instrumentFetch";
-import categoryDeleteSlice from "./slices/categories/deleteCategories";
+import labFetchSlice from "./slices/labs/fetchLabSlice";
+import categoryFetchSlice from "./slices/categories/fetchCategorySlice";
+
+// delete
 import labDeleteSlice from "./slices/labs/deleteLabs";
+import categoryDeleteSlice from "./slices/categories/deleteCategories";
 import instrumentDeleteSlice from "./slices/instruments/instrumentDelete";
 
 // admin
@@ -24,6 +28,8 @@ import postUploadSlice from "./slices/posts/postUpload";
 
 // update
 import instrumentUpdateSlice from "./slices/instruments/instrumentUpdate";
+import categoryUpdateSlice from "./slices/categories/updateCategory";
+import labUpdateSlice from "./slices/labs/updateLabSlice";
 
 const MyMiddlewares = [logger, thunk];
 
@@ -47,6 +53,8 @@ const store = configureStore({
     // update
     postUpload: postUploadSlice.reducer,
     instrumentUpdate: instrumentUpdateSlice.reducer,
+    categoryUpdate: categoryUpdateSlice.reducer,
+    labUpdate: labUpdateSlice.reducer,
 
     // admin
     getAdmin: getAdminSlice.reducer,

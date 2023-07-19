@@ -5,7 +5,7 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import MDBox from "components/MDBox";
 import Grid from "@mui/material/Grid";
 import SimpleBlogCard from "examples/Cards/BlogCards/SimpleBlogCard";
-import AddInstrument from "./new-instruments";
+import AddInstrument from "./instruments/new-instruments";
 
 function Instruments() {
   const { instrument, searchArr } = useSelector((state) => state.instrumentFetch, shallowEqual);

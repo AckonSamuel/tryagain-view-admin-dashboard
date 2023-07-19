@@ -8,27 +8,29 @@ const initialState = {
   loading: false,
 };
 
-export const categoryCreate = createAsyncThunk("category/categoryCreate", async (category) => {
-  const res = await axios.post(`${BASE_URL}/categories/`, { category: { ...category } });
+export const categoryUpdate = createAsyncThunk("category/categoryUpdate", async (category) => {
+  const res = await axios.patch(`${BASE_URL}/categories/${category[0]}`, {
+    category: category[1],
+  });
   return res.data;
 });
 
-const categoryCreateSlice = createSlice({
+const categoryUpdateSlice = createSlice({
   name: "category",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(categoryCreate.pending, (state) => {
+    builder.addCase(categoryUpdate.pending, (state) => {
       state.loading = true;
       state.category = [];
       state.error = "";
     });
-    builder.addCase(categoryCreate.fulfilled, (state, action) => {
+    builder.addCase(categoryUpdate.fulfilled, (state, action) => {
       state.category = action.payload.data;
       state.loading = false;
       state.error = "";
     });
-    builder.addCase(categoryCreate.rejected, (state, action) => {
+    builder.addCase(categoryUpdate.rejected, (state, action) => {
       state.error = action.error.message;
       state.loading = false;
       state.category = [];
@@ -36,4 +38,4 @@ const categoryCreateSlice = createSlice({
   },
 });
 
-export default categoryCreateSlice;
+export default categoryUpdateSlice;

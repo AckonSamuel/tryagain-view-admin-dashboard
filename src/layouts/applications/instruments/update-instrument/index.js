@@ -1,15 +1,19 @@
+/* eslint-disable camelcase */
+
 import React, { useRef, useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
+import PropTypes from "prop-types";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import Tooltip from "@mui/material/Tooltip";
+import Icon from "@mui/material/Icon";
 import MDBox from "components/MDBox";
 import MDInput from "components/MDInput";
 import MDTypography from "components/MDTypography";
-import MDButton from "components/MDButton";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -17,8 +21,9 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Chip from "@mui/material/Chip";
 import { labFetch } from "redux/slices/labs/fetchLabSlice";
-import { instrumentCreate } from "redux/slices/instruments/instrumentCreate";
 import { categoryFetch } from "redux/slices/categories/fetchCategorySlice";
+import { instrumentUpdate } from "redux/slices/instruments/instrumentUpdate";
+import { instrumentFetch } from "redux/slices/instruments/instrumentFetch";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -31,22 +36,56 @@ const MenuProps = {
   },
 };
 
-export default function AddCategory() {
+export default function UpdateInstrument({ targetId }) {
   const dispatch = useDispatch();
-  const [itemCategory, setItemCategory] = useState([]);
-  const [itemLab, setItemLab] = useState([]);
   const [open, setOpen] = useState(false);
   const [scroll, setScroll] = useState("paper");
   const [submitted, setSubmitted] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [itemCategory, setItemCategory] = useState([]);
+  const [itemLab, setItemLab] = useState([]);
 
-  const { register, getValues, handleSubmit } = useForm();
+  const { register, getValues, handleSubmit, setValue } = useForm();
 
   const sampleCategory = useSelector((state) => state.categoryFetch.category);
   const sampleLabs = useSelector((state) => state.labFetch.lab);
+  const { loading, error, instrument } = useSelector((state) => state.instrumentUpdate);
+  const instruments = useSelector((state) => state.instrumentFetch.instrument);
 
-  const loading = useSelector((state) => state.categoryCreate.loading);
-  const error = useSelector((state) => state.categoryCreate.error);
+  const targetInstrument =
+    instruments.length > 0 ? instruments.find((item) => item.id === targetId) : instrument;
+
+  const checkTargetInstrument = () => {
+    if (targetInstrument && targetInstrument.attributes) {
+      const {
+        instrument_name,
+        manufacturing_year,
+        model,
+        price,
+        description,
+        resolution,
+        range,
+        accuracy,
+        categories,
+        labs,
+      } = targetInstrument.attributes;
+
+      setValue("instrument_name", instrument_name);
+      setValue("manufacturing_year", manufacturing_year);
+      setValue("model", model);
+      setValue("price", price);
+      setValue("description", description);
+      setValue("resolution", resolution);
+      setValue("range", range);
+      setValue("accuracy", accuracy);
+      setItemCategory(categories);
+      setItemLab(labs);
+    }
+  };
+
+  useEffect(() => {
+    checkTargetInstrument();
+  }, []);
 
   const handleClickOpen = (scrollType) => () => {
     setOpen(true);
@@ -81,11 +120,11 @@ export default function AddCategory() {
     if (submitted) {
       setSubmitted(false);
       const data = getValues();
-      dispatch(instrumentCreate(data)).then((res) => {
-        if (res.type === "instrument/instrumentCreate/fulfilled") {
+      dispatch(instrumentUpdate([targetId, data])).then((res) => {
+        if (res.type === "instrument/instrumentUpdate/fulfilled") {
+          dispatch(instrumentFetch());
           setOpen(false);
           setSuccess(true);
-          // dispatch(instrumentFetch());
         }
       });
     }
@@ -106,12 +145,10 @@ export default function AddCategory() {
   };
 
   return (
-    <div>
-      <MDBox sx={{ marginLeft: 5 }}>
-        <MDButton color="success" onClick={handleClickOpen("paper")}>
-          Add equipment
-        </MDButton>
-      </MDBox>
+    <>
+      <Tooltip sx={{ cursor: "pointer" }} title="edit" placement="top" onClick={handleClickOpen("paper")}>
+        <Icon fontSize="small">edit</Icon>
+      </Tooltip>
       <Dialog
         open={open}
         onClose={handleClose}
@@ -130,7 +167,7 @@ export default function AddCategory() {
                 variant="standard"
                 disabled={loading}
                 fullWidth
-                {...register("instrument_name", { required: true })}
+                {...register("instrument_name")}
               />
             </MDBox>
             <MDBox mb={2}>
@@ -140,7 +177,7 @@ export default function AddCategory() {
                 variant="standard"
                 disabled={loading}
                 fullWidth
-                {...register("manufacturing_year", { required: true })}
+                {...register("manufacturing_year")}
               />
             </MDBox>
             <MDBox mb={2}>
@@ -150,7 +187,7 @@ export default function AddCategory() {
                 variant="standard"
                 disabled={loading}
                 fullWidth
-                {...register("model", { required: true })}
+                {...register("model")}
               />
             </MDBox>
             <MDBox mb={2}>
@@ -160,7 +197,7 @@ export default function AddCategory() {
                 variant="standard"
                 disabled={loading}
                 fullWidth
-                {...register("price", { required: true })}
+                {...register("price")}
               />
             </MDBox>
             <MDBox mb={2}>
@@ -171,7 +208,7 @@ export default function AddCategory() {
                 disabled={loading}
                 fullWidth
                 multiline
-                {...register("description", { required: true })}
+                {...register("description")}
               />
             </MDBox>
             <MDBox mb={2}>
@@ -181,7 +218,7 @@ export default function AddCategory() {
                 variant="standard"
                 disabled={loading}
                 fullWidth
-                {...register("resolution", { required: true })}
+                {...register("resolution")}
               />
             </MDBox>
             <MDBox mb={2}>
@@ -191,7 +228,7 @@ export default function AddCategory() {
                 variant="standard"
                 disabled={loading}
                 fullWidth
-                {...register("range", { required: true })}
+                {...register("range")}
               />
             </MDBox>
             <MDBox mb={2}>
@@ -201,7 +238,7 @@ export default function AddCategory() {
                 variant="standard"
                 disabled={loading}
                 fullWidth
-                {...register("accuracy", { required: true })}
+                {...register("accuracy")}
               />
             </MDBox>
             <MDBox mb={2}>
@@ -211,9 +248,10 @@ export default function AddCategory() {
                   labelId="demo-multiple-chip-label"
                   id="demo-multiple-chip"
                   multiple
+                  required
+                  value={itemCategory}
                   sx={{ minHeight: 50 }}
                   {...register("categories")}
-                  value={itemCategory}
                   onChange={handleCategoryChange}
                   input={<OutlinedInput id="select-multiple-chip" label="categories" />}
                   renderValue={(selected) => (
@@ -247,9 +285,10 @@ export default function AddCategory() {
                   labelId="demo-multiple-chip-label"
                   id="demo-multiple-chip"
                   multiple
+                  required
+                  value={itemLab}
                   {...register("labs")}
                   sx={{ minHeight: 50 }}
-                  value={itemLab}
                   onChange={handleLabChange}
                   input={<OutlinedInput id="select-multiple-chip" label="labs" />}
                   renderValue={(selected) => (
@@ -289,6 +328,10 @@ export default function AddCategory() {
           {success && <MDTypography color="warning">Add category unsuccessful</MDTypography>}
         </MDBox>
       </Dialog>
-    </div>
+    </>
   );
 }
+
+UpdateInstrument.propTypes = {
+  targetId: PropTypes.string.isRequired,
+};

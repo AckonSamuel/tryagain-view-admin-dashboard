@@ -3,25 +3,27 @@
 import React, { useEffect, useState, forwardRef } from "react";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { useNavigate } from "react-router-dom";
-// import PropTypes from "prop-types";
+import PropTypes from "prop-types";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
+import Tooltip from "@mui/material/Tooltip";
+import Icon from "@mui/material/Icon";
 import DialogActions from "@mui/material/DialogActions";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import MDBox from "components/MDBox";
 import { instrumentDelete } from "redux/slices/instruments/instrumentDelete";
-import MDButton from "components/MDButton";
 import MDTypography from "components/MDTypography";
 import { CircularProgress } from "@mui/material";
 import { instrumentFetch } from "redux/slices/instruments/instrumentFetch";
 
 const Transition = forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
 
-export default function DeleteInstrument() {
+export default function DeleteInstrument({ targetId }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const [isMounted, setIsMounted] = useState(true);
   const [submitted, setSubmitted] = useState(false);
 
   const handleClickOpen = () => {
@@ -33,12 +35,12 @@ export default function DeleteInstrument() {
   };
 
   const { loading, error } = useSelector((state) => state.instrumentDelete, shallowEqual);
-  const id = JSON.parse(localStorage.getItem("instrumentId"));
 
   useEffect(() => {
     if (submitted) {
+      setIsMounted(true);
       setSubmitted(false);
-      dispatch(instrumentDelete(id)).then((res) => {
+      dispatch(instrumentDelete(targetId)).then((res) => {
         if (res.type === "instrument/instrumentDelete/fulfilled") {
           dispatch(instrumentFetch()).then((result) => {
             if (result.type === "instrument/instrumentFetch/fulfilled") {
@@ -49,7 +51,11 @@ export default function DeleteInstrument() {
         }
       });
     }
-  }, [submitted]);
+
+    return () => {
+      setIsMounted(false); // Clean up the flag when the component is unmounted
+    };
+  }, [submitted, dispatch, navigate]);
 
   const handleDelete = () => {
     setSubmitted(true);
@@ -57,9 +63,9 @@ export default function DeleteInstrument() {
 
   return (
     <>
-      <MDButton bgcolor="warning" onClick={handleClickOpen}>
-        Delete
-      </MDButton>
+      <Tooltip sx={{ cursor: "pointer" }} title="delete" placement="top" onClick={handleClickOpen}>
+        <Icon fontSize="small">delete</Icon>
+      </Tooltip>
       <MDBox component="form" role="form">
         <Dialog
           open={open}
@@ -109,3 +115,7 @@ export default function DeleteInstrument() {
     </>
   );
 }
+
+DeleteInstrument.propTypes = {
+  targetId: PropTypes.string.isRequired,
+};

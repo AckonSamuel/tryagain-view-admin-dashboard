@@ -9,14 +9,7 @@ const initialState = {
 };
 
 export const categoryFetch = createAsyncThunk("category/categoryFetch", async () => {
-  const res = await axios.get(
-    `${BASE_URL}/categories/`
-    // {
-    //   headers: {
-    //     Authorization: `Bearer ${token}`,
-    //   },
-    // }
-  );
+  const res = await axios.get(`${BASE_URL}/categories/`);
   return res.data;
 });
 

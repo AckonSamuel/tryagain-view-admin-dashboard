@@ -4,15 +4,17 @@ import React, { useRef, useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { categoryCreate } from "redux/slices/categories/addCategorySlice";
+import { categoryFetch } from "redux/slices/categories/fetchCategorySlice";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
+import Tooltip from "@mui/material/Tooltip";
+import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import MDBox from "components/MDBox";
 import MDInput from "components/MDInput";
 import MDTypography from "components/MDTypography";
-import MDButton from "components/MDButton";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -72,7 +74,7 @@ export default function Addcategory() {
         if (res.type === "category/categoryCreate/fulfilled") {
           setOpen(false);
           setSuccess(true);
-          //   dispatch(categoryFetch());
+          dispatch(categoryFetch());
         }
       });
     }
@@ -90,15 +92,14 @@ export default function Addcategory() {
 
   return (
     <div>
-      <MDBox
-        sx={{
-          marginLeft: 5,
-        }}
+      <Tooltip
+        sx={{ cursor: "pointer" }}
+        title="add new lab"
+        placement="top"
+        onClick={handleClickOpen("paper")}
       >
-        <MDButton color="success" onClick={handleClickOpen("paper")}>
-          Add Category
-        </MDButton>
-      </MDBox>
+        <ControlPointIcon />
+      </Tooltip>
       <Dialog
         open={open}
         onClose={handleClose}
