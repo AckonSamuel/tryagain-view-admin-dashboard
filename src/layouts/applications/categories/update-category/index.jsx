@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+/* eslint-disable no-unused-vars */
 
 import React, { useRef, useState, useEffect } from "react";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
@@ -34,7 +35,6 @@ export default function UpdateCategory({ categoryId }) {
       ? categories.find((item) => item.id === categoryId)
       : category;
 
-  console.log(targetCategory);
   const checkTargetCategory = () => {
     if (targetCategory && targetCategory.attributes) {
       const { category_name, category_description } = targetCategory.attributes;
