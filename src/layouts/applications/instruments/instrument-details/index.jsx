@@ -15,7 +15,6 @@ import UpdateInstrument from "../update-instrument";
 import DeleteInstrument from "../delete-instrument";
 import Image from "./data/Image";
 import Data from "./data";
-import Return from "./return";
 
 function InstrumentDetails({ targetId }) {
   const [open, setOpen] = useState(false);
@@ -60,12 +59,11 @@ function InstrumentDetails({ targetId }) {
         fullWidth
       >
         <MDBox component="div" fullWidth>
-          <DialogTitle id="scroll-dialog-title">Add lab</DialogTitle>
+          <DialogTitle id="scroll-dialog-title">Instrument Details</DialogTitle>
           <DialogContent dividers={scroll === "paper"} ref={descriptionElementRef}>
             <MDBox py={3}>
-              <Return />
-              <DeleteInstrument targetId={targetId} />
-              <UpdateInstrument targetId={targetId} />
+              {targetId.length > 0 && <DeleteInstrument targetId={targetId} />}
+              {targetId.length > 0 && <UpdateInstrument targetId={targetId} />}
               {instrument
                 .filter((item) => item.id === targetId)
                 .map((item) => (
@@ -94,8 +92,12 @@ function InstrumentDetails({ targetId }) {
   );
 }
 
+InstrumentDetails.defaultProps = {
+  targetId: "",
+};
+
 InstrumentDetails.propTypes = {
-  targetId: PropTypes.string.isRequired,
+  targetId: PropTypes.string,
 };
 
 export default InstrumentDetails;
