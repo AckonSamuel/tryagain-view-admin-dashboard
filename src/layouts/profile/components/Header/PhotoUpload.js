@@ -17,7 +17,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Icon from "@mui/material/Icon";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
-import { update, instrumentFetch } from "redux/slices/instruments/instrumentFetch"; // Combine imports
+import { instrumentFetch } from "redux/slices/instruments/instrumentFetch"; // Combine imports
 import { postUpload } from "../../../../redux/slices/posts/postUpload";
 
 const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
@@ -64,10 +64,10 @@ export default function PhotoUpload({ id, size, title, regis }) {
         if (isMountedRef.current) {
           // Check if component is still mounted
           if (res.type === "post/postUpload/fulfilled") {
-            dispatch(instrumentFetch()).then((res) => {
+            dispatch(instrumentFetch()).then((result) => {
               if (isMountedRef.current) {
                 // Check if component is still mounted
-                if (res.type === "instrument/instrumentFetch/fulfilled") {
+                if (result.type === "instrument/instrumentFetch/fulfilled") {
                   setOpen(false);
                 }
               }
