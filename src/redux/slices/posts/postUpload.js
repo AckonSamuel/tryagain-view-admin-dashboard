@@ -17,7 +17,9 @@ export const postUpload = createAsyncThunk("post/postUpload", async (data) => {
       },
     },
     {
-      headers: { "Content-Type": "multipart/form-data" },
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
     }
   );
 

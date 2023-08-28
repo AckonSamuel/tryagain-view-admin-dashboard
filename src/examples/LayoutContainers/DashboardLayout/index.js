@@ -32,7 +32,7 @@ function DashboardLayout({ children }) {
     setLayout(dispatch, "dashboard");
     dispatched(getAdmin()).then((res) => {
       if (res.type !== "admin/getAdmin/fulfilled") {
-        navigate("/");
+        navigate("/authentication/sign-in");
       }
       if (res.type === "admin/getAdmin/fulfilled") {
         if (categories.length === 0) {

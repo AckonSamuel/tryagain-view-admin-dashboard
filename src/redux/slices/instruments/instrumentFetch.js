@@ -32,6 +32,10 @@ const instrumentFetchSlice = createSlice({
       ...state,
       search: action.payload,
     }),
+    update: (state, action) => ({
+      ...state,
+      instrument: action.payload,
+    }),
   },
   extraReducers: (builder) => {
     builder.addCase(instrumentFetch.pending, (state) => {
@@ -54,6 +58,6 @@ const instrumentFetchSlice = createSlice({
 
 const { actions, reducer } = instrumentFetchSlice;
 
-export const { searchTitle, search } = actions;
+export const { searchTitle, search, update } = actions;
 
 export default reducer;

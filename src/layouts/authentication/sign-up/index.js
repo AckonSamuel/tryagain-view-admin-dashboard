@@ -77,7 +77,7 @@ function Cover() {
 
       dispatch(adminSignUp(data)).then((res) => {
         if (res.type === "admin/adminSignUP/fulfilled") {
-          navigate("/");
+          navigate("/authentication/sign-in");
         }
       });
     }

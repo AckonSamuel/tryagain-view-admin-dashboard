@@ -79,7 +79,7 @@ const routes = [
     name: "Sign-in",
     key: "sign-in",
     icon: <Icon fontSize="small">logout</Icon>,
-    route: "/",
+    route: "/authentication/sign-in",
     component: <SignIn />,
   },
   {

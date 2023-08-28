@@ -39,7 +39,7 @@ export default function Logout() {
       dispatch(adminLogout()).then((res) => {
         if (res.type === "admin/adminLogout/fulfilled") {
           setOpen(false);
-          navigate("/");
+          navigate("/authentication/sign-in");
         }
       });
     }

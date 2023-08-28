@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
-import * as React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { useForm } from "react-hook-form";
 import PropTypes from "prop-types";
@@ -17,18 +17,22 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Icon from "@mui/material/Icon";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
+import { update, instrumentFetch } from "redux/slices/instruments/instrumentFetch"; // Combine imports
 import { postUpload } from "../../../../redux/slices/posts/postUpload";
 
 const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
 
 export default function PhotoUpload({ id, size, title, regis }) {
   const dispatch = useDispatch();
-  const { register, handleSubmit, getValues } = useForm();
-  const [open, setOpen] = React.useState(false);
-  const [submitted, setSubmitted] = React.useState(false);
+  const { register, handleSubmit, getValues, reset } = useForm();
+  const [open, setOpen] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
-  const loading = useSelector((state) => state.postUpload.loading, shallowEqual);
-  const error = useSelector((state) => state.postUpload.error, shallowEqual);
+  const { loading: uploadLoading, error } = useSelector((state) => state.postUpload, shallowEqual);
+  const { loading: fetchLoading } = useSelector((state) => state.instrumentFetch, shallowEqual);
+
+  // Use a ref to track the mounted state of the component
+  const isMountedRef = useRef(true);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -36,15 +40,20 @@ export default function PhotoUpload({ id, size, title, regis }) {
 
   const handleClose = () => {
     setOpen(false);
+    reset();
   };
 
   const fileUpload = () => {
     setSubmitted(true);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
+    // Component is mounted
+    isMountedRef.current = true;
+
     if (submitted) {
       setSubmitted(false);
+
       const vad = getValues();
       const data = {
         id,
@@ -52,12 +61,26 @@ export default function PhotoUpload({ id, size, title, regis }) {
       };
 
       dispatch(postUpload(data)).then((res) => {
-        if (res.type === "post/postUpload/fulfilled") {
-          setOpen(false);
-          window.location.reload();
+        if (isMountedRef.current) {
+          // Check if component is still mounted
+          if (res.type === "post/postUpload/fulfilled") {
+            dispatch(instrumentFetch()).then((res) => {
+              if (isMountedRef.current) {
+                // Check if component is still mounted
+                if (res.type === "instrument/instrumentFetch/fulfilled") {
+                  setOpen(false);
+                }
+              }
+            });
+          }
         }
       });
     }
+
+    // Component will unmount, set mounted state to false
+    return () => {
+      isMountedRef.current = false;
+    };
   }, [submitted]);
 
   return (
@@ -73,7 +96,7 @@ export default function PhotoUpload({ id, size, title, regis }) {
           onClose={handleClose}
           aria-describedby="alert-dialog-slide-description"
         >
-          {loading ? (
+          {fetchLoading || uploadLoading ? (
             <MDBox p={6}>
               <CircularProgress color="success" />
             </MDBox>
