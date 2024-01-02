@@ -1,9 +1,6 @@
 ![](https://img.shields.io/badge/Microverse-blueviolet)
 
-# Project Name
-
-> Engineering Lab Equipment Management System.
-Hn, 
+# Engineering Lab Equipment Management System. 
 
 ## Built With
 
@@ -15,4 +12,4 @@ Hn,
 [live Link](https://tryagain-view-admin-dashboard.vercel.app)
 
 
-[Backend repo] (
+[Backend repo] (https://github.com/AckonSamuel/labsdb) 
